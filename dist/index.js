@@ -20,7 +20,6 @@ var pagination_batch_info_1 = require("@writetome51/pagination-batch-info");
 var batch_loader_1 = require("@writetome51/batch-loader");
 var page_loader_1 = require("@writetome51/page-loader");
 var batch_to_page_translator_1 = require("@writetome51/batch-to-page-translator");
-var FullDatasetPaginator_1 = require("../FullDatasetPaginator");
 /***************************
  AppPaginator is intended for a real-world web application.  It automatically
  batchinates the full dataset in case it's huge.
@@ -33,9 +32,8 @@ var AppPaginator = /** @class */ (function (_super) {
             this.__pageInfo = new pagination_page_info_1.PaginationPageInfo(dataSource, batchPaginator);
             this.__batchInfo = new pagination_batch_info_1.PaginationBatchInfo(this.__pageInfo);
             var bch2pgTranslator = new batch_to_page_translator_1.BatchToPageTranslator(this.__pageInfo, this.__batchInfo);
-            var getBatch = new batch_loader_1.GetBatch(dataSource, this.__batchInfo, bch2pgTranslator);
-            var pageLoader = new page_loader_1.PageLoader(batchPaginator, bch2pgTranslator, getBatch);
-            this.__fullDatasetPaginator = new FullDatasetPaginator_1.FullDatasetPaginator(pageLoader);
+            var getPageBatch = new batch_loader_1.GetPageBatch(dataSource, this.__batchInfo, bch2pgTranslator);
+            this.__pageLoader = new page_loader_1.PageLoader(batchPaginator, bch2pgTranslator, getPageBatch);
         }) || this;
     }
     return AppPaginator;

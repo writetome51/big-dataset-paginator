@@ -2,10 +2,9 @@ import { AbstractAppPaginator } from '@writetome51/abstract-app-paginator';
 import { ArrayPaginator } from '@writetome51/array-paginator';
 import { PaginationPageInfo } from '@writetome51/pagination-page-info';
 import { PaginationBatchInfo } from '@writetome51/pagination-batch-info';
-import { GetBatch } from '@writetome51/batch-loader';
+import { GetPageBatch } from '@writetome51/batch-loader';
 import { PageLoader } from '@writetome51/page-loader';
 import { BatchToPageTranslator } from '@writetome51/batch-to-page-translator';
-import { FullDatasetPaginator } from '../FullDatasetPaginator';
 
 
 /***************************
@@ -45,13 +44,15 @@ export class AppPaginator extends AbstractAppPaginator {
 
 				let bch2pgTranslator = new BatchToPageTranslator(this.__pageInfo, this.__batchInfo);
 
-				let getBatch = new GetBatch(
+				let getPageBatch: {
+					containingPage: (pageNumber) => any[], byForce_containingPage: (pageNumber) => any[]
+				} = new GetPageBatch(
 					dataSource, this.__batchInfo, bch2pgTranslator
 				);
-				let pageLoader = new PageLoader(
-					batchPaginator, bch2pgTranslator, getBatch
+
+				this.__pageLoader = new PageLoader(
+					batchPaginator, bch2pgTranslator, getPageBatch
 				);
-				this.__fullDatasetPaginator = new FullDatasetPaginator(pageLoader);
 
 			}
 		);
