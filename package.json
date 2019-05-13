@@ -1,6 +1,6 @@
 {
-  "name": "@writetome51/base-class",
-  "version": "1.0.0",
+  "name": "@writetome51/app-paginator",
+  "version": "3.0.0",
   "description": "An abstract Typescript/Javascript class with properties and methods that perhaps every class should have",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/writetome51/typescript-base-class.git"
+    "url": "git+https://github.com/writetome51/app-paginator.git"
   },
   "keywords": [
     "abstract",
@@ -20,13 +20,13 @@
   "author": "Steve Thompson",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/writetome51/typescript-base-class/issues"
+    "url": "https://github.com/writetome51/app-paginator/issues"
   },
-  "homepage": "https://github.com/writetome51/typescript-base-class#readme",
+  "homepage": "https://github.com/writetome51/app-paginator#readme",
   "devDependencies": {
   },
   "dependencies": {
-    "@writetome51/get-property": "~1.0.4",
-    "@writetome51/has-value-no-value": "~1.0.2"
+    "@writetome51/abstract-app-paginator": "~0.0.1",
+    "@writetome51/": "~1.0.2"
   }
 }

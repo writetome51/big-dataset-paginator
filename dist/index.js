@@ -13,6 +13,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+var abstract_app_paginator_1 = require("@writetome51/abstract-app-paginator");
 var array_paginator_1 = require("@writetome51/array-paginator");
 var pagination_page_info_1 = require("@writetome51/pagination-page-info");
 var pagination_batch_info_1 = require("@writetome51/pagination-batch-info");
@@ -38,5 +39,5 @@ var AppPaginator = /** @class */ (function (_super) {
         }) || this;
     }
     return AppPaginator;
-}(AbstractAppPaginator));
+}(abstract_app_paginator_1.AbstractAppPaginator));
 exports.AppPaginator = AppPaginator;

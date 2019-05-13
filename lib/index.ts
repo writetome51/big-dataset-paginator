@@ -1,3 +1,4 @@
+import { AbstractAppPaginator } from '@writetome51/abstract-app-paginator';
 import { ArrayPaginator } from '@writetome51/array-paginator';
 import { PaginationPageInfo } from '@writetome51/pagination-page-info';
 import { PaginationBatchInfo } from '@writetome51/pagination-batch-info';
@@ -15,25 +16,25 @@ import { FullDatasetPaginator } from '../FullDatasetPaginator';
 export class AppPaginator extends AbstractAppPaginator {
 
 
-	constructor(dataSource) {
+	constructor(
+		dataSource: {
+
+			// The number of items `getBatch()` returns must match `itemsPerBatch`.  If
+			// `isLastBatch` is true, it must only return the remaining items in the dataset
+			// and ignore itemsPerBatch.
+
+			getBatch: (batchNumber: number, itemsPerBatch: number, isLastBatch: boolean) => any[];
+
+			// `dataTotal`: number of items in entire dataset, not the batch.
+			// This must stay accurate after actions that change the total, such as searches.
+
+			dataTotal: number;
+		}
+	) {
 		super(
 			dataSource,
 
-			function (
-				dataSource: {
-
-					// The number of items `getBatch()` returns must match `itemsPerBatch`.  If
-					// `isLastBatch` is true, it must only return the remaining items in the dataset
-					// and ignore itemsPerBatch.
-
-					getBatch: (batchNumber: number, itemsPerBatch: number, isLastBatch: boolean) => any[];
-
-					// `dataTotal`: number of items in entire dataset, not the batch.
-					// This must stay accurate after actions that change the total, such as searches.
-
-					dataTotal: number;
-				}
-			): void {
+			function (dataSource): void {
 
 				let batchPaginator: {
 					currentPage: any[], currentPageNumber: number, itemsPerPage: number, data: any[]
