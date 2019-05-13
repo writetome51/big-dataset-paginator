@@ -23,10 +23,12 @@
     "url": "https://github.com/writetome51/app-paginator/issues"
   },
   "homepage": "https://github.com/writetome51/app-paginator#readme",
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "dependencies": {
-    "@writetome51/abstract-app-paginator": "~0.0.1",
-    "@writetome51/": "~1.0.2"
+    "@writetome51/array-paginator": "~4.0.0",
+    "@writetome51/pagination-page-info": "~0.0.1",
+    "@writetome51/pagination-batch-info": "~1.0.0",
+    "@writetome51/page-loader": "~1.0.0",
+    "@writetome51/batch-to-page-translator": "~0.0.2"
   }
 }

@@ -17,7 +17,7 @@ var abstract_app_paginator_1 = require("@writetome51/abstract-app-paginator");
 var array_paginator_1 = require("@writetome51/array-paginator");
 var pagination_page_info_1 = require("@writetome51/pagination-page-info");
 var pagination_batch_info_1 = require("@writetome51/pagination-batch-info");
-var batch_loader_1 = require("@writetome51/batch-loader");
+var get_page_batch_1 = require("@writetome51/get-page-batch");
 var page_loader_1 = require("@writetome51/page-loader");
 var batch_to_page_translator_1 = require("@writetome51/batch-to-page-translator");
 /***************************
@@ -27,13 +27,23 @@ var batch_to_page_translator_1 = require("@writetome51/batch-to-page-translator"
 var AppPaginator = /** @class */ (function (_super) {
     __extends(AppPaginator, _super);
     function AppPaginator(dataSource) {
-        return _super.call(this, dataSource, function (dataSource) {
-            var batchPaginator = new array_paginator_1.ArrayPaginator();
-            this.__pageInfo = new pagination_page_info_1.PaginationPageInfo(dataSource, batchPaginator);
-            this.__batchInfo = new pagination_batch_info_1.PaginationBatchInfo(this.__pageInfo);
+        return _super.call(this, dataSource, 
+        // This setup function maps out all the object dependencies.
+        function (dataSource) {
+            var batchPaginator;
+            batchPaginator = new array_paginator_1.ArrayPaginator();
+            var pageInfo;
+            pageInfo = new pagination_page_info_1.PaginationPageInfo(dataSource, batchPaginator);
+            this.__pageInfo = pageInfo;
+            var batchInfo;
+            batchInfo = new pagination_batch_info_1.PaginationBatchInfo(this.__pageInfo);
+            this.__batchInfo = batchInfo;
             var bch2pgTranslator = new batch_to_page_translator_1.BatchToPageTranslator(this.__pageInfo, this.__batchInfo);
-            var getPageBatch = new batch_loader_1.GetPageBatch(dataSource, this.__batchInfo, bch2pgTranslator);
-            this.__pageLoader = new page_loader_1.PageLoader(batchPaginator, bch2pgTranslator, getPageBatch);
+            var getPageBatch;
+            getPageBatch = new get_page_batch_1.GetPageBatch(dataSource, this.__batchInfo, bch2pgTranslator);
+            var pageLoader;
+            pageLoader = new page_loader_1.PageLoader(batchPaginator, bch2pgTranslator, getPageBatch);
+            this.__pageLoader = pageLoader;
         }) || this;
     }
     return AppPaginator;
