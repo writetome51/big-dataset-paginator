@@ -1,7 +1,7 @@
 {
   "name": "@writetome51/app-paginator",
   "version": "3.0.0",
-  "description": "An abstract Typescript/Javascript class with properties and methods that perhaps every class should have",
+  "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -25,10 +25,12 @@
   "homepage": "https://github.com/writetome51/app-paginator#readme",
   "devDependencies": {},
   "dependencies": {
+    "@writetome51/abstract-app-paginator": "~0.0.1",
     "@writetome51/array-paginator": "~4.0.0",
+    "@writetome51/batch-to-page-translator": "~0.0.2",
+    "@writetome51/get-page-batch": "~0.0.1",
+    "@writetome51/page-loader": "~1.0.1",
     "@writetome51/pagination-page-info": "~0.0.1",
-    "@writetome51/pagination-batch-info": "~1.0.0",
-    "@writetome51/page-loader": "~1.0.0",
-    "@writetome51/batch-to-page-translator": "~0.0.2"
+    "@writetome51/pagination-batch-info": "~1.0.0"
   }
 }

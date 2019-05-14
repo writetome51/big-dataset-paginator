@@ -1,11 +1,10 @@
 import { AbstractAppPaginator } from '@writetome51/abstract-app-paginator';
 import { ArrayPaginator } from '@writetome51/array-paginator';
-import { PaginationPageInfo } from '@writetome51/pagination-page-info';
-import { PaginationBatchInfo } from '@writetome51/pagination-batch-info';
+import { BatchToPageTranslator } from '@writetome51/batch-to-page-translator';
 import { GetPageBatch } from '@writetome51/get-page-batch';
 import { PageLoader } from '@writetome51/page-loader';
-import { BatchToPageTranslator } from '@writetome51/batch-to-page-translator';
-
+import { PaginationBatchInfo } from '@writetome51/pagination-batch-info';
+import { PaginationPageInfo } from '@writetome51/pagination-page-info';
 
 /***************************
  AppPaginator is intended for a real-world web application.  It automatically

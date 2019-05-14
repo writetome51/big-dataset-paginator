@@ -15,11 +15,11 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var abstract_app_paginator_1 = require("@writetome51/abstract-app-paginator");
 var array_paginator_1 = require("@writetome51/array-paginator");
-var pagination_page_info_1 = require("@writetome51/pagination-page-info");
-var pagination_batch_info_1 = require("@writetome51/pagination-batch-info");
+var batch_to_page_translator_1 = require("@writetome51/batch-to-page-translator");
 var get_page_batch_1 = require("@writetome51/get-page-batch");
 var page_loader_1 = require("@writetome51/page-loader");
-var batch_to_page_translator_1 = require("@writetome51/batch-to-page-translator");
+var pagination_batch_info_1 = require("@writetome51/pagination-batch-info");
+var pagination_page_info_1 = require("@writetome51/pagination-page-info");
 /***************************
  AppPaginator is intended for a real-world web application.  It automatically
  batchinates the full dataset in case it's huge.
