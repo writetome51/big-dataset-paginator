@@ -23,7 +23,9 @@
     "url": "https://github.com/writetome51/app-paginator/issues"
   },
   "homepage": "https://github.com/writetome51/app-paginator#readme",
-  "devDependencies": {},
+  "devDependencies": {
+    "@writetome51/get-countup-countdown": "~1.0.3"
+  },
   "dependencies": {
     "@writetome51/abstract-app-paginator": "~0.0.1",
     "@writetome51/array-paginator": "~4.0.0",

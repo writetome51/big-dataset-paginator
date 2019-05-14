@@ -28,7 +28,8 @@ var AppPaginator = /** @class */ (function (_super) {
     __extends(AppPaginator, _super);
     function AppPaginator(dataSource) {
         return _super.call(this, dataSource, 
-        // This setup function maps out all the object dependencies.
+        // This setup function specifies all the interface requirements and handles dependency
+        // injection.
         function (dataSource) {
             var batchPaginator;
             batchPaginator = new array_paginator_1.ArrayPaginator();

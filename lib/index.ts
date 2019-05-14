@@ -32,7 +32,8 @@ export class AppPaginator extends AbstractAppPaginator {
 		super(
 			dataSource,
 
-			// This setup function maps out all the object dependencies.
+			// This setup function specifies all the interface requirements and handles dependency
+			// injection.
 
 			function (dataSource): void {
 
@@ -59,7 +60,8 @@ export class AppPaginator extends AbstractAppPaginator {
 
 
 				let getPageBatch: {
-					containingPage: (pageNumber) => any[], byForce_containingPage: (pageNumber) => any[]
+					containingPage: (pageNumber) => any[], 
+					byForce_containingPage: (pageNumber) => any[]
 				};
 				getPageBatch = new GetPageBatch(
 					dataSource, this.__batchInfo, bch2pgTranslator
