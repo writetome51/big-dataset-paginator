@@ -20,7 +20,11 @@ paginator.itemsPerBatch = 10;
 paginator.currentPageNumber = 51;
 console.log(paginator.currentPage);
 console.log(paginator.totalPages);
-//console.log(paginator.);
+paginator.itemsPerPage = 9;
+paginator.itemsPerBatch = 9;
+paginator.currentPageNumber = 12;
+console.log(paginator.currentPage);
+console.log(paginator.totalPages);
 /******************************************************
 
  // batchInfo.itemsPerBatch must be set before doing anything else:
