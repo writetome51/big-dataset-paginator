@@ -31,7 +31,7 @@ console.log(appPaginator.currentPage); // `[item1, item2, item3, item4,...]`
 
 ## Constructor
 
-```
+```ts
 dataSource: {
 
     getBatch: (batchNumber: number, itemsPerBatch: number, isLastBatch: boolean) => any[];
@@ -48,7 +48,7 @@ dataSource: {
 
 ## Properties
 
-```
+```ts
 itemsPerPage: number
     // Default is 25.
 
@@ -71,7 +71,7 @@ totalPages: number // read-only
 
 ## Methods
 
-```
+```ts
 reset() : void
     // reloads the first batch and sets this.currentPageNumber to 1.
     // Intended to be called after the order of the dataset changes (like 
@@ -90,7 +90,7 @@ AppPaginator<--[AbstractAppPaginator](https://github.com/writetome51/abstract-ap
 
 
 ## Loading
-```
+```ts
 // If using TypeScript:
 import { AppPaginator } from '@writetome51/app-paginator';
 // If using ES5 JavaScript:
