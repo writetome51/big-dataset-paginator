@@ -13,6 +13,9 @@
 
 
 ## Basic Usage
+<details>
+<summary>view basic usage</summary>
+
 ```ts
 // Get an instance (see constructor for dataSource details):
 let appPaginator = new AppPaginator(dataSource);
@@ -26,10 +29,20 @@ appPaginator.currentPageNumber = 1;
 
 // Show the first page in the console:
 console.log(appPaginator.currentPage); // `[item1, item2, item3, item4,...]`
+
+// Create string telling us the page we're seeing:
+'Page: ' + appPaginator.currentPageNumber + ' of ' + appPaginator.totalPages
+
+// The user performs a search to narrow down the dataset.
+// You want the paginator to react to this, so you do a reset:
+appPaginator.reset();
 ```
+</details>
 
 
 ## Constructor
+<details>
+<summary>view constructor</summary>
 
 ```ts
 dataSource: {
@@ -44,9 +57,12 @@ dataSource: {
         // This must stay accurate after actions that change the total, such as searches.
 }
 ```
+</details>
 
 
 ## Properties
+<details>
+<summary>view properties</summary>
 
 ```ts
 itemsPerPage: number
@@ -56,7 +72,7 @@ itemsPerBatch: number
     // Total number of items the app can have loaded in memory.
     // If your data source doesn't allow you to request batches the size of multiple
     // pages, set this to same value as this.itemsPerPage.
-    // Note: if this isn't evenly divisible by this.itemsPerPage, its value is 
+    // NOTE: if this isn't evenly divisible by this.itemsPerPage, its value is 
     // lowered until it is.
 
 currentPageNumber: number
@@ -67,9 +83,12 @@ currentPage: any[] // read-only
 
 totalPages: number // read-only
 ```
+</details>
 
 
 ## Methods
+<details>
+<summary>view methods</summary>
 
 ```ts
 reset() : void
@@ -78,6 +97,7 @@ reset() : void
     // after sorting), or after the total number of items changes (like after 
     // a search).
 ```
+</details>
 
 
 ## Inheritance Chain

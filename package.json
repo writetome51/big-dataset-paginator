@@ -12,9 +12,13 @@
     "url": "git+https://github.com/writetome51/app-paginator.git"
   },
   "keywords": [
-    "abstract",
+    "app",
+    "application",
+    "paginator",
+    "pagination",
+    "paginate",
+    "data",
     "typescript",
-    "base",
     "class"
   ],
   "author": "Steve Thompson",
@@ -24,6 +28,7 @@
   },
   "homepage": "https://github.com/writetome51/app-paginator#readme",
   "devDependencies": {
+    "@writetome51/arrays-match": "~1.0.6",
     "@writetome51/get-countup-countdown": "~1.0.3"
   },
   "dependencies": {
@@ -32,7 +37,7 @@
     "@writetome51/batch-to-page-translator": "~0.0.2",
     "@writetome51/get-page-batch": "~0.0.1",
     "@writetome51/page-loader": "~1.0.1",
-    "@writetome51/pagination-page-info": "~0.0.1",
-    "@writetome51/pagination-batch-info": "~1.0.0"
+    "@writetome51/pagination-batch-info": "~1.0.0",
+    "@writetome51/pagination-page-info": "~0.0.1"
   }
 }
