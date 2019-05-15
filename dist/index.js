@@ -22,12 +22,13 @@ var pagination_batch_info_1 = require("@writetome51/pagination-batch-info");
 var pagination_page_info_1 = require("@writetome51/pagination-page-info");
 /***************************
  AppPaginator is intended for a real-world web application.  It automatically batchinates the full
- dataset in case it's huge.  In the constructor you pass in a `dataSource` that returns data in
- batches that contain multiple pages worth.  (A batch is defined as either the total amount of items
- you want the app to have loaded in memory at once, or the total amount of items the data source is
- willing to give you at once.)
- When the property `currentPageNumber` is given a value, this class requests from dataSource the
- batch that page is in. Then it places the items of the requested page in the property `currentPage`.
+ dataset in case it's huge.
+ In the constructor you pass in a `dataSource` that returns data in batches that contain multiple
+ pages worth.  (A batch is either the total amount of data you want the app to have loaded in
+ memory at once, or the total amount of data the data source is willing to give you at once ——
+ whichever is less.  Tell AppPaginator the batch size by setting the property `itemsPerBatch`.)  When
+ the property `currentPageNumber` is given a value, this class requests from dataSource the batch
+ that page is in. Then it places the items of the requested page in the property `currentPage`.
  ***************************/
 var AppPaginator = /** @class */ (function (_super) {
     __extends(AppPaginator, _super);
