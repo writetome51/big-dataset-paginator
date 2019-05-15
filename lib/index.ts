@@ -7,8 +7,13 @@ import { PaginationBatchInfo } from '@writetome51/pagination-batch-info';
 import { PaginationPageInfo } from '@writetome51/pagination-page-info';
 
 /***************************
- AppPaginator is intended for a real-world web application.  It automatically
- batchinates the full dataset in case it's huge.
+ AppPaginator is intended for a real-world web application.  It automatically batchinates the full
+ dataset in case it's huge.  In the constructor you pass in a `dataSource` that returns data in
+ batches that contain multiple pages worth.  (A batch is defined as either the total amount of items
+ you want the app to have loaded in memory at once, or the total amount of items the data source is
+ willing to give you at once.)
+ When the property `currentPageNumber` is given a value, this class requests from dataSource the
+ batch that page is in. Then it places the items of the requested page in the property `currentPage`.
  ***************************/
 
 export class AppPaginator extends AbstractAppPaginator {

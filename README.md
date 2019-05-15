@@ -1,6 +1,32 @@
 # AppPaginator
 
+ A TypeScript/JavaScript class for pagination in a real-world web application. It  
+ automatically batchinates the full dataset in case it's huge.  
+ In the constructor you pass in a `dataSource` that returns data in batches that  
+ contain multiple pages worth. (A batch is either the total amount of data you  
+ want the app to have loaded in memory at once, or the total amount of data the  
+ data source is willing to give you at once —— whichever is less. Tell  
+ AppPaginator the batch size by setting the property `itemsPerBatch`.) When the  
+ property `currentPageNumber` is given a value, this class requests from  
+ `dataSource` the batch that page is in. Then it places the items of the  
+ requested page in the property `currentPage`.
 
+
+## Basic Usage
+```ts
+// Get an instance (see constructor for dataSource details):
+let appPaginator = new AppPaginator(dataSource);
+
+// Make sure itemsPerPage has the value you want:
+appPaginator.itemsPerPage = 10;
+
+appPaginator.itemsPerBatch = 200;
+
+appPaginator.currentPageNumber = 1;
+
+// Show the first page in the console:
+console.log(appPaginator.currentPage); // `[item1, item2, item3, item4,...]`
+```
 
 
 ## Constructor
@@ -23,14 +49,15 @@ dataSource: {
 ## Properties
 
 ```
-itemsPerBatch: number
-    // Total number of items the app can have loaded in memory.  Set this to 
-    // highest number that does not negatively affect app performance.
-    // If your data source doesn't allow you to request batches the size of multiple
-    // pages, set this to same value as this.itemsPerPage.
-
 itemsPerPage: number
     // Default is 25.
+
+itemsPerBatch: number
+    // Total number of items the app can have loaded in memory.
+    // If your data source doesn't allow you to request batches the size of multiple
+    // pages, set this to same value as this.itemsPerPage.
+    // Note: if this isn't evenly divisible by this.itemsPerPage, its value is 
+    // lowered until it is.
 
 currentPageNumber: number
     // Setting this automatically updates this.currentPage
