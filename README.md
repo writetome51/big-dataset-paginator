@@ -45,17 +45,19 @@ appPaginator.reset();
 <summary>view constructor</summary>
 
 ```ts
-dataSource: {
+constructor(
+    dataSource: {
 
-    getBatch: (batchNumber: number, itemsPerBatch: number, isLastBatch: boolean) => any[];
-        // The number of items `getBatch()` returns must match `itemsPerBatch`.  If
-        // `isLastBatch` is true, it must only return the remaining items in the dataset
-        // and ignore itemsPerBatch.
+        getBatch: (batchNumber: number, itemsPerBatch: number, isLastBatch: boolean) => any[];
+            // The number of items `getBatch()` returns must match `itemsPerBatch`.  If
+            // `isLastBatch` is true, it must only return the remaining items in the dataset
+            // and ignore itemsPerBatch.
 
-    dataTotal: number;
-        // `dataTotal`: number of items in entire dataset, not the batch.
-        // This must stay accurate after actions that change the total, such as searches.
-}
+        dataTotal: number;
+            // `dataTotal`: number of items in entire dataset, not the batch.
+            // This must stay accurate after actions that change the total, such as searches.
+    }
+)
 ```
 </details>
 
