@@ -3,17 +3,14 @@ import { getCountup } from '@writetome51/get-countup-countdown';
 import { arraysMatch } from '@writetome51/arrays-match';
 
 
-let datatotal = 29;
-
 // create a dataSource object:
 let dataSource = {
-	dataTotal: datatotal,
+	dataTotal: 29,
 
-	getBatch: (batchNumber: number, itemsPerBatch: number, isLastBatch: boolean) => {
-
+	getBatch: function (batchNumber: number, itemsPerBatch: number, isLastBatch: boolean) {
 		let start = (batchNumber - 1) * itemsPerBatch + 1;
 		let end = start + itemsPerBatch - 1;
-		if (isLastBatch) end = datatotal;
+		if (isLastBatch) end = this.dataTotal;
 
 		return getCountup(start, end);
 	}
@@ -120,15 +117,45 @@ if (arraysMatch(expectedResults, actualResults)) console.log('test 6 passed');
 else console.log('test 6 FAILED');
 
 
-paginator.itemsPerPage = 9;
-paginator.itemsPerBatch = 9;
-paginator.currentPageNumber = 12;
+// Make sure there are no problems if itemsPerBatch is bigger than dataTotal:
+paginator.itemsPerPage = 10;
+paginator.itemsPerBatch = 40;
+paginator.currentPageNumber = 3;
 
-console.log(paginator.currentPage);
-console.log(paginator.totalPages);
-
-
-
-
+if (arraysMatch(paginator.currentPage, [21, 22, 23, 24, 25, 26, 27, 28, 29]) &&
+	paginator.totalPages === 3) console.log('test 7 passed');
+else console.log('test 7 FAILED');
 
 
+// Make sure there are no problems if itemsPerPage is bigger than dataTotal:
+dataSource.dataTotal = 21;
+paginator.itemsPerPage = 25;
+paginator.reset(); // currentPageNumber is now 1.
+
+if (arraysMatch(
+	paginator.currentPage, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]))
+	console.log('test 8 passed');
+else console.log('test 8 FAILED');
+
+
+dataSource.dataTotal = 77;
+paginator.reset();
+let page1 = paginator.currentPage;
+
+++paginator.currentPageNumber;
+
+let page2 = paginator.currentPage;
+
+++paginator.currentPageNumber;
+
+let page3 = paginator.currentPage;
+
+++paginator.currentPageNumber;
+
+let page4 = paginator.currentPage;
+
+if (arraysMatch(page1, getCountup(1, 25)) &&
+	arraysMatch(page2, getCountup(26, 50)) &&
+	arraysMatch(page3, getCountup(51, 75)) &&
+	arraysMatch(page4, getCountup(76, 77))) console.log('test 9 passed');
+else console.log('test 9 FAILED');

@@ -94,10 +94,10 @@ totalPages: number // read-only
 
 ```ts
 reset() : void
-    // reloads the first batch and sets this.currentPageNumber to 1.
-    // Intended to be called after the order of the dataset changes (like 
-    // after sorting), or after the total number of items changes (like after 
-    // a search).
+    // Reloads the first batch and sets this.currentPageNumber to 1.
+    // Should be called after the order of the dataset changes (like 
+    // after sorting), after the total number of items changes 
+    // (like after a search), or after this.itemsPerPage changes.
 ```
 </details>
 
