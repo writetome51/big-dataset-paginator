@@ -159,3 +159,44 @@ if (arraysMatch(page1, getCountup(1, 25)) &&
 	arraysMatch(page3, getCountup(51, 75)) &&
 	arraysMatch(page4, getCountup(76, 77))) console.log('test 9 passed');
 else console.log('test 9 FAILED');
+
+
+dataSource.dataTotal = 103;
+paginator.itemsPerBatch = 200;
+paginator.itemsPerPage = 11;
+paginator.reset();
+
+page1 = paginator.currentPage;
+
+++paginator.currentPageNumber;
+
+page2 = paginator.currentPage;
+
+++paginator.currentPageNumber;
+
+page3 = paginator.currentPage;
+
+++paginator.currentPageNumber;
+
+page4 = paginator.currentPage;
+
+paginator.currentPageNumber = 10;
+
+let page10 = paginator.currentPage;
+
+if (arraysMatch(page1, getCountup(1, 11)) &&
+	arraysMatch(page2, getCountup(12, 22)) &&
+	arraysMatch(page3, getCountup(23, 33)) &&
+	arraysMatch(page4, getCountup(34, 44)) &&
+	arraysMatch(page10, getCountup(100, 103))) console.log('test 10 passed');
+else console.log('test 10 FAILED');
+
+
+errorTriggered = false;
+try {
+	paginator.currentPageNumber = 11;
+} catch (e) {
+	errorTriggered = true;
+}
+if (errorTriggered) console.log('test 11 passed');
+else console.log('test 11 FAILED');

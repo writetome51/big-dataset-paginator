@@ -1,7 +1,7 @@
 {
   "name": "@writetome51/app-paginator",
   "version": "3.0.0",
-  "description": "",
+  "description": "A class for pagination in a real-world web application",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -32,7 +32,7 @@
     "@writetome51/get-countup-countdown": "~1.0.3"
   },
   "dependencies": {
-    "@writetome51/abstract-app-paginator": "~0.0.1",
+    "@writetome51/abstract-app-paginator": "~0.0.2",
     "@writetome51/array-paginator": "~4.0.0",
     "@writetome51/batch-to-page-translator": "~0.0.2",
     "@writetome51/get-page-batch": "~0.0.1",

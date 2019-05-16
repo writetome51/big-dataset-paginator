@@ -153,3 +153,35 @@ if (arrays_match_1.arraysMatch(page1, get_countup_countdown_1.getCountup(1, 25))
     console.log('test 9 passed');
 else
     console.log('test 9 FAILED');
+dataSource.dataTotal = 103;
+paginator.itemsPerBatch = 200;
+paginator.itemsPerPage = 11;
+paginator.reset();
+page1 = paginator.currentPage;
+++paginator.currentPageNumber;
+page2 = paginator.currentPage;
+++paginator.currentPageNumber;
+page3 = paginator.currentPage;
+++paginator.currentPageNumber;
+page4 = paginator.currentPage;
+paginator.currentPageNumber = 10;
+var page10 = paginator.currentPage;
+if (arrays_match_1.arraysMatch(page1, get_countup_countdown_1.getCountup(1, 11)) &&
+    arrays_match_1.arraysMatch(page2, get_countup_countdown_1.getCountup(12, 22)) &&
+    arrays_match_1.arraysMatch(page3, get_countup_countdown_1.getCountup(23, 33)) &&
+    arrays_match_1.arraysMatch(page4, get_countup_countdown_1.getCountup(34, 44)) &&
+    arrays_match_1.arraysMatch(page10, get_countup_countdown_1.getCountup(100, 103)))
+    console.log('test 10 passed');
+else
+    console.log('test 10 FAILED');
+errorTriggered = false;
+try {
+    paginator.currentPageNumber = 11;
+}
+catch (e) {
+    errorTriggered = true;
+}
+if (errorTriggered)
+    console.log('test 11 passed');
+else
+    console.log('test 11 FAILED');

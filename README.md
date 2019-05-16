@@ -25,13 +25,9 @@ appPaginator.itemsPerPage = 10;
 
 appPaginator.itemsPerBatch = 200;
 
+// Show the first page:
 appPaginator.currentPageNumber = 1;
-
-// Show the first page in the console:
 console.log(appPaginator.currentPage); // `[item1, item2, item3, item4,...]`
-
-// Create string telling us the page we're seeing:
-'Page: ' + appPaginator.currentPageNumber + ' of ' + appPaginator.totalPages
 
 // The user performs a search to narrow down the dataset.
 // You want the paginator to react to this, so you do a reset:
@@ -48,14 +44,17 @@ appPaginator.reset();
 constructor(
     dataSource: {
 
-        getBatch: (batchNumber: number, itemsPerBatch: number, isLastBatch: boolean) => any[];
-            // The number of items `getBatch()` returns must match `itemsPerBatch`.  If
-            // `isLastBatch` is true, it must only return the remaining items in the dataset
-            // and ignore itemsPerBatch.
+        getBatch: (
+            batchNumber: number, itemsPerBatch: number, isLastBatch: boolean
+        ) => any[];
+            // The number of items `getBatch()` returns must match `itemsPerBatch`.
+            // If `isLastBatch` is true, it must only return the remaining items 
+            // in the dataset and ignore itemsPerBatch.
 
         dataTotal: number;
             // `dataTotal`: number of items in entire dataset, not the batch.
-            // This must stay accurate after actions that change the total, such as searches.
+            // This must stay accurate after actions that change the total, such 
+            // as searches.
     }
 )
 ```
