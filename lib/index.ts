@@ -40,7 +40,7 @@ export class AppPaginator extends AbstractAppPaginator {
 			dataSource,
 
 			// This setup function specifies all the interface requirements and handles dependency
-			// injection.
+			// injection.  All the instances created are singletons to be shared.
 
 			function (dataSource): void {
 

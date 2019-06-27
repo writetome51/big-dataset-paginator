@@ -36,7 +36,7 @@ var AppPaginator = /** @class */ (function (_super) {
     function AppPaginator(dataSource) {
         return _super.call(this, dataSource, 
         // This setup function specifies all the interface requirements and handles dependency
-        // injection.
+        // injection.  All the instances created are singletons to be shared.
         function (dataSource) {
             var batchPaginator;
             batchPaginator = new array_paginator_1.ArrayPaginator();
