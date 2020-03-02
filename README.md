@@ -7,9 +7,9 @@
  want the app to have loaded in memory at once, or the total amount of data the  
  data source is willing to give you at once —— whichever is less. Tell  
  AppPaginator the batch size by setting the property `itemsPerBatch`.) When the  
- property `currentPageNumber` is given a value, this class requests from  
- `dataSource` the batch that page is in. Then it places the items of the  
- requested page in the property `currentPage`.
+ method `set_currentPageNumber(num)` is called, this class requests from  
+ `dataSource` the batch that page is in. Then the items of the requested page  
+ will be in the property `currentPage`.
 
 
 ## Basic Usage
@@ -26,12 +26,12 @@ appPaginator.itemsPerPage = 10;
 appPaginator.itemsPerBatch = 200;
 
 // Show the first page:
-appPaginator.currentPageNumber = 1;
+await appPaginator.set_currentPageNumber(1);
 console.log(appPaginator.currentPage); // `[item1, item2, item3, item4,...]`
 
 // The user performs a search to narrow down the dataset.
 // You want the paginator to react to this, so you do a reset:
-appPaginator.reset();
+await appPaginator.reset();
 ```
 </details>
 
@@ -46,7 +46,7 @@ constructor(
 
         getBatch: (
             batchNumber: number, itemsPerBatch: number, isLastBatch: boolean
-        ) => any[];
+        ) => Promise<any[]>;
             // The number of items `getBatch()` returns must match `itemsPerBatch`.
             // If `isLastBatch` is true, it must only return the remaining items 
             // in the dataset and ignore itemsPerBatch.
@@ -76,8 +76,7 @@ itemsPerBatch: number
     // NOTE: if this isn't evenly divisible by this.itemsPerPage, its value is 
     // lowered until it is.
 
-currentPageNumber: number
-    // Setting this automatically updates this.currentPage
+currentPageNumber: number // read-only
 
 currentPage: any[] // read-only
     // All items in the current page.
@@ -92,11 +91,14 @@ totalPages: number // read-only
 <summary>view methods</summary>
 
 ```ts
-reset() : void
-    // Reloads the first batch and sets this.currentPageNumber to 1.
-    // Should be called after the order of the dataset changes (like 
-    // after sorting), after the total number of items changes 
-    // (like after a search), or after this.itemsPerPage changes.
+async set_currentPageNumber(num): Promise<void>
+    // updates this.currentPage
+
+async reset(): Promise<void>
+    // force-loads page 1.
+    // Intended to be called after the order of the dataset changes (like 
+    // after sorting), or after the total number of items changes (like after 
+    // a search).
 ```
 </details>
 

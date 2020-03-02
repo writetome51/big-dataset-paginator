@@ -28,13 +28,16 @@ export class AppPaginator extends AbstractAppPaginator {
 			// `isLastBatch` is true, it must only return the remaining items in the dataset
 			// and ignore itemsPerBatch.
 
-			getBatch: (batchNumber: number, itemsPerBatch: number, isLastBatch: boolean) => any[];
+			getBatch: (
+				batchNumber: number, itemsPerBatch: number, isLastBatch: boolean
+			) => Promise<any[]>;
 
 			// `dataTotal`: number of items in entire dataset, not the batch.
 			// This must stay accurate after actions that change the total, such as searches.
 
 			dataTotal: number;
 		}
+
 	) {
 		super(
 			dataSource,
@@ -67,8 +70,8 @@ export class AppPaginator extends AbstractAppPaginator {
 
 
 				let getPageBatch: {
-					containingPage: (pageNumber) => any[], 
-					byForce_containingPage: (pageNumber) => any[]
+					containingPage: (pageNumber) => Promise<any[]>,
+					byForce_containingPage: (pageNumber) => Promise<any[]>
 				};
 				getPageBatch = new GetPageBatch(
 					dataSource, this.__batchInfo, bch2pgTranslator
@@ -76,7 +79,8 @@ export class AppPaginator extends AbstractAppPaginator {
 
 
 				let pageLoader: {
-					loadPage: (pageNumber) => void, forceLoadPage: (pageNumber) => void,
+					loadPage: (pageNumber) => Promise<void>,
+					forceLoadPage: (pageNumber) => Promise<void>,
 					loadedPage: any[]
 				};
 				pageLoader = new PageLoader(

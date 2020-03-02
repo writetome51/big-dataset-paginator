@@ -1,6 +1,6 @@
 {
   "name": "@writetome51/app-paginator",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "A class for pagination in a real-world web application",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -28,16 +28,16 @@
   },
   "homepage": "https://github.com/writetome51/app-paginator#readme",
   "devDependencies": {
-    "@writetome51/arrays-match": "~1.0.6",
-    "@writetome51/get-countup-countdown": "~1.0.3"
+    "@writetome51/arrays-match": "^1.0.6",
+    "@writetome51/get-countup-countdown": "^1.0.3"
   },
   "dependencies": {
-    "@writetome51/abstract-app-paginator": "~0.0.2",
-    "@writetome51/array-paginator": "~4.0.0",
-    "@writetome51/batch-to-page-translator": "~0.0.2",
-    "@writetome51/get-page-batch": "~0.0.1",
-    "@writetome51/page-loader": "~1.0.1",
-    "@writetome51/pagination-batch-info": "~1.0.0",
-    "@writetome51/pagination-page-info": "~0.0.1"
+    "@writetome51/abstract-app-paginator": "^0.0.3",
+    "@writetome51/array-paginator": "^5.0.0",
+    "@writetome51/batch-to-page-translator": "^0.0.2",
+    "@writetome51/get-page-batch": "^0.0.2",
+    "@writetome51/page-loader": "^2.0.0",
+    "@writetome51/pagination-batch-info": "^1.0.0",
+    "@writetome51/pagination-page-info": "^0.0.1"
   }
 }

@@ -1,187 +1,206 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var index_1 = require("./index");
-var get_countup_countdown_1 = require("@writetome51/get-countup-countdown");
-var arrays_match_1 = require("@writetome51/arrays-match");
-// create a dataSource object:
-var dataSource = {
-    dataTotal: 29,
-    getBatch: function (batchNumber, itemsPerBatch, isLastBatch) {
-        var start = (batchNumber - 1) * itemsPerBatch + 1;
-        var end = start + itemsPerBatch - 1;
-        if (isLastBatch)
-            end = this.dataTotal;
-        return get_countup_countdown_1.getCountup(start, end);
-    }
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
 };
-var paginator = new index_1.AppPaginator(dataSource);
-// Test validation-checking.
-var errorsTriggered = 0;
-try {
-    paginator.itemsPerPage = 0;
+Object.defineProperty(exports, "__esModule", { value: true });
+const index_1 = require("./index");
+const get_countup_countdown_1 = require("@writetome51/get-countup-countdown");
+const arrays_match_1 = require("@writetome51/arrays-match");
+function runTests() {
+    return __awaiter(this, void 0, void 0, function* () {
+        // create a dataSource object:
+        let dataSource = {
+            dataTotal: 29,
+            getBatch: function (batchNumber, itemsPerBatch, isLastBatch) {
+                return __awaiter(this, void 0, void 0, function* () {
+                    let start = (batchNumber - 1) * itemsPerBatch + 1;
+                    let end = start + itemsPerBatch - 1;
+                    if (isLastBatch)
+                        end = this.dataTotal;
+                    return get_countup_countdown_1.getCountup(start, end);
+                });
+            }
+        };
+        let paginator = new index_1.AppPaginator(dataSource);
+        // Test validation.
+        let errorsTriggered = 0;
+        try {
+            paginator.itemsPerPage = 0;
+        }
+        catch (e) {
+            ++errorsTriggered;
+        }
+        try {
+            paginator.itemsPerPage = -1;
+        }
+        catch (e) {
+            ++errorsTriggered;
+        }
+        try {
+            // @ts-ignore
+            paginator.itemsPerPage = '1';
+        }
+        catch (e) {
+            ++errorsTriggered;
+        }
+        if (errorsTriggered === 3)
+            console.log('test 1 passed');
+        else
+            console.log('test 1 FAILED');
+        errorsTriggered = 0;
+        try {
+            paginator.itemsPerBatch = 0;
+        }
+        catch (e) {
+            ++errorsTriggered;
+        }
+        try {
+            paginator.itemsPerBatch = -1;
+        }
+        catch (e) {
+            ++errorsTriggered;
+        }
+        try {
+            // @ts-ignore
+            paginator.itemsPerBatch = '1';
+        }
+        catch (e) {
+            ++errorsTriggered;
+        }
+        if (errorsTriggered === 3)
+            console.log('test 2 passed');
+        else
+            console.log('test 2 FAILED');
+        errorsTriggered = 0;
+        try {
+            yield paginator.set_currentPageNumber(0);
+        }
+        catch (e) {
+            ++errorsTriggered;
+        }
+        try {
+            yield paginator.set_currentPageNumber(-1);
+        }
+        catch (e) {
+            ++errorsTriggered;
+        }
+        try {
+            // @ts-ignore
+            yield paginator.set_currentPageNumber('1');
+        }
+        catch (e) {
+            ++errorsTriggered;
+        }
+        if (errorsTriggered === 3)
+            console.log('test 3 passed');
+        else
+            console.log('test 3 FAILED');
+        // Make sure itemsPerBatch can't be less than itemsPerPage:
+        let errorTriggered = false;
+        paginator.itemsPerPage = 2;
+        try {
+            paginator.itemsPerBatch = 1;
+        }
+        catch (e) {
+            errorTriggered = true;
+        }
+        if (errorTriggered)
+            console.log('test 4 passed');
+        else
+            console.log('test 4 FAILED');
+        // Make sure itemsPerBatch is kept evenly divisible by itemsPerPage:
+        paginator.itemsPerPage = 2;
+        paginator.itemsPerBatch = 3;
+        let result1 = paginator.itemsPerBatch;
+        paginator.itemsPerBatch = 23;
+        let result2 = paginator.itemsPerBatch;
+        if (result1 === 2 && result2 === 22)
+            console.log('test 5 passed');
+        else
+            console.log('test 5 FAILED');
+        // Make sure totalPages is correct:
+        let expectedResults = [15, 10, 8, 6, 5, 5, 4, 4, 3, 3, 3, 3, 3, 2];
+        let actualResults = [];
+        let itemsPerPageVariations = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+        itemsPerPageVariations.forEach((itemsPerPage) => {
+            paginator.itemsPerPage = itemsPerPage;
+            actualResults.push(paginator.totalPages);
+        });
+        if (arrays_match_1.arraysMatch(expectedResults, actualResults))
+            console.log('test 6 passed');
+        else
+            console.log('test 6 FAILED');
+        // Make sure there are no problems if itemsPerBatch is bigger than dataTotal:
+        paginator.itemsPerPage = 10;
+        paginator.itemsPerBatch = 40;
+        yield paginator.set_currentPageNumber(3);
+        if (arrays_match_1.arraysMatch(paginator.currentPage, [21, 22, 23, 24, 25, 26, 27, 28, 29]) &&
+            paginator.totalPages === 3)
+            console.log('test 7 passed');
+        else
+            console.log('test 7 FAILED');
+        // Make sure there are no problems if itemsPerPage is bigger than dataTotal:
+        dataSource.dataTotal = 21;
+        paginator.itemsPerPage = 25;
+        yield paginator.reset(); // currentPageNumber is now 1.
+        if (arrays_match_1.arraysMatch(paginator.currentPage, get_countup_countdown_1.getCountup(1, 21)))
+            console.log('test 8 passed');
+        else
+            console.log('test 8 FAILED');
+        dataSource.dataTotal = 77;
+        yield paginator.reset();
+        let page1 = paginator.currentPage;
+        yield paginator.set_currentPageNumber(paginator.currentPageNumber + 1);
+        let page2 = paginator.currentPage;
+        yield paginator.set_currentPageNumber(paginator.currentPageNumber + 1);
+        let page3 = paginator.currentPage;
+        yield paginator.set_currentPageNumber(paginator.currentPageNumber + 1);
+        let page4 = paginator.currentPage;
+        if (arrays_match_1.arraysMatch(page1, get_countup_countdown_1.getCountup(1, 25)) &&
+            arrays_match_1.arraysMatch(page2, get_countup_countdown_1.getCountup(26, 50)) &&
+            arrays_match_1.arraysMatch(page3, get_countup_countdown_1.getCountup(51, 75)) &&
+            arrays_match_1.arraysMatch(page4, get_countup_countdown_1.getCountup(76, 77)))
+            console.log('test 9 passed');
+        else
+            console.log('test 9 FAILED');
+        dataSource.dataTotal = 103;
+        paginator.itemsPerBatch = 200;
+        paginator.itemsPerPage = 11;
+        yield paginator.reset();
+        page1 = paginator.currentPage;
+        yield paginator.set_currentPageNumber(paginator.currentPageNumber + 1);
+        page2 = paginator.currentPage;
+        yield paginator.set_currentPageNumber(paginator.currentPageNumber + 1);
+        page3 = paginator.currentPage;
+        yield paginator.set_currentPageNumber(paginator.currentPageNumber + 1);
+        page4 = paginator.currentPage;
+        yield paginator.set_currentPageNumber(10);
+        let page10 = paginator.currentPage;
+        if (arrays_match_1.arraysMatch(page1, get_countup_countdown_1.getCountup(1, 11)) &&
+            arrays_match_1.arraysMatch(page2, get_countup_countdown_1.getCountup(12, 22)) &&
+            arrays_match_1.arraysMatch(page3, get_countup_countdown_1.getCountup(23, 33)) &&
+            arrays_match_1.arraysMatch(page4, get_countup_countdown_1.getCountup(34, 44)) &&
+            arrays_match_1.arraysMatch(page10, get_countup_countdown_1.getCountup(100, 103)))
+            console.log('test 10 passed');
+        else
+            console.log('test 10 FAILED');
+        errorTriggered = false;
+        try {
+            yield paginator.set_currentPageNumber(11);
+        }
+        catch (e) {
+            errorTriggered = true;
+        }
+        if (errorTriggered)
+            console.log('test 11 passed');
+        else
+            console.log('test 11 FAILED');
+    });
 }
-catch (e) {
-    ++errorsTriggered;
-}
-try {
-    paginator.itemsPerPage = -1;
-}
-catch (e) {
-    ++errorsTriggered;
-}
-try {
-    paginator.itemsPerPage = '1';
-}
-catch (e) {
-    ++errorsTriggered;
-}
-if (errorsTriggered === 3)
-    console.log('test 1 passed');
-else
-    console.log('test 1 FAILED');
-errorsTriggered = 0;
-try {
-    paginator.itemsPerBatch = 0;
-}
-catch (e) {
-    ++errorsTriggered;
-}
-try {
-    paginator.itemsPerBatch = -1;
-}
-catch (e) {
-    ++errorsTriggered;
-}
-try {
-    paginator.itemsPerBatch = '1';
-}
-catch (e) {
-    ++errorsTriggered;
-}
-if (errorsTriggered === 3)
-    console.log('test 2 passed');
-else
-    console.log('test 2 FAILED');
-errorsTriggered = 0;
-try {
-    paginator.currentPageNumber = 0;
-}
-catch (e) {
-    ++errorsTriggered;
-}
-try {
-    paginator.currentPageNumber = -1;
-}
-catch (e) {
-    ++errorsTriggered;
-}
-try {
-    paginator.currentPageNumber = '1';
-}
-catch (e) {
-    ++errorsTriggered;
-}
-if (errorsTriggered === 3)
-    console.log('test 3 passed');
-else
-    console.log('test 3 FAILED');
-// Make sure itemsPerBatch can't be less than itemsPerPage:
-var errorTriggered = false;
-paginator.itemsPerPage = 2;
-try {
-    paginator.itemsPerBatch = 1;
-}
-catch (e) {
-    errorTriggered = true;
-}
-if (errorTriggered)
-    console.log('test 4 passed');
-else
-    console.log('test 4 FAILED');
-// Make sure itemsPerBatch is kept evenly divisible by itemsPerPage:
-paginator.itemsPerPage = 2;
-paginator.itemsPerBatch = 3;
-var result1 = paginator.itemsPerBatch;
-paginator.itemsPerBatch = 23;
-var result2 = paginator.itemsPerBatch;
-if (result1 === 2 && result2 === 22)
-    console.log('test 5 passed');
-else
-    console.log('test 5 FAILED');
-// Make sure totalPages is correct:
-var expectedResults = [15, 10, 8, 6, 5, 5, 4, 4, 3, 3, 3, 3, 3, 2];
-var actualResults = [];
-var itemsPerPageVariations = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
-itemsPerPageVariations.forEach(function (itemsPerPage) {
-    paginator.itemsPerPage = itemsPerPage;
-    actualResults.push(paginator.totalPages);
-});
-if (arrays_match_1.arraysMatch(expectedResults, actualResults))
-    console.log('test 6 passed');
-else
-    console.log('test 6 FAILED');
-// Make sure there are no problems if itemsPerBatch is bigger than dataTotal:
-paginator.itemsPerPage = 10;
-paginator.itemsPerBatch = 40;
-paginator.currentPageNumber = 3;
-if (arrays_match_1.arraysMatch(paginator.currentPage, [21, 22, 23, 24, 25, 26, 27, 28, 29]) &&
-    paginator.totalPages === 3)
-    console.log('test 7 passed');
-else
-    console.log('test 7 FAILED');
-// Make sure there are no problems if itemsPerPage is bigger than dataTotal:
-dataSource.dataTotal = 21;
-paginator.itemsPerPage = 25;
-paginator.reset(); // currentPageNumber is now 1.
-if (arrays_match_1.arraysMatch(paginator.currentPage, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]))
-    console.log('test 8 passed');
-else
-    console.log('test 8 FAILED');
-dataSource.dataTotal = 77;
-paginator.reset();
-var page1 = paginator.currentPage;
-++paginator.currentPageNumber;
-var page2 = paginator.currentPage;
-++paginator.currentPageNumber;
-var page3 = paginator.currentPage;
-++paginator.currentPageNumber;
-var page4 = paginator.currentPage;
-if (arrays_match_1.arraysMatch(page1, get_countup_countdown_1.getCountup(1, 25)) &&
-    arrays_match_1.arraysMatch(page2, get_countup_countdown_1.getCountup(26, 50)) &&
-    arrays_match_1.arraysMatch(page3, get_countup_countdown_1.getCountup(51, 75)) &&
-    arrays_match_1.arraysMatch(page4, get_countup_countdown_1.getCountup(76, 77)))
-    console.log('test 9 passed');
-else
-    console.log('test 9 FAILED');
-dataSource.dataTotal = 103;
-paginator.itemsPerBatch = 200;
-paginator.itemsPerPage = 11;
-paginator.reset();
-page1 = paginator.currentPage;
-++paginator.currentPageNumber;
-page2 = paginator.currentPage;
-++paginator.currentPageNumber;
-page3 = paginator.currentPage;
-++paginator.currentPageNumber;
-page4 = paginator.currentPage;
-paginator.currentPageNumber = 10;
-var page10 = paginator.currentPage;
-if (arrays_match_1.arraysMatch(page1, get_countup_countdown_1.getCountup(1, 11)) &&
-    arrays_match_1.arraysMatch(page2, get_countup_countdown_1.getCountup(12, 22)) &&
-    arrays_match_1.arraysMatch(page3, get_countup_countdown_1.getCountup(23, 33)) &&
-    arrays_match_1.arraysMatch(page4, get_countup_countdown_1.getCountup(34, 44)) &&
-    arrays_match_1.arraysMatch(page10, get_countup_countdown_1.getCountup(100, 103)))
-    console.log('test 10 passed');
-else
-    console.log('test 10 FAILED');
-errorTriggered = false;
-try {
-    paginator.currentPageNumber = 11;
-}
-catch (e) {
-    errorTriggered = true;
-}
-if (errorTriggered)
-    console.log('test 11 passed');
-else
-    console.log('test 11 FAILED');
+runTests();
