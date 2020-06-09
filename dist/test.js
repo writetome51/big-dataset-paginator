@@ -148,13 +148,13 @@ function runTests() {
         // Make sure there are no problems if itemsPerPage is bigger than dataTotal:
         dataSource.dataTotal = 21;
         paginator.itemsPerPage = 25;
-        yield paginator.reset(); // currentPageNumber is now 1.
+        yield paginator.resetToFirstPage(); // currentPageNumber is now 1.
         if (arrays_match_1.arraysMatch(paginator.currentPage, get_countup_countdown_1.getCountup(1, 21)))
             console.log('test 8 passed');
         else
             console.log('test 8 FAILED');
         dataSource.dataTotal = 77;
-        yield paginator.reset();
+        yield paginator.resetToFirstPage();
         let page1 = paginator.currentPage;
         yield paginator.set_currentPageNumber(paginator.currentPageNumber + 1);
         let page2 = paginator.currentPage;
@@ -172,7 +172,7 @@ function runTests() {
         dataSource.dataTotal = 103;
         paginator.itemsPerBatch = 200;
         paginator.itemsPerPage = 11;
-        yield paginator.reset();
+        yield paginator.resetToFirstPage();
         page1 = paginator.currentPage;
         yield paginator.set_currentPageNumber(paginator.currentPageNumber + 1);
         page2 = paginator.currentPage;

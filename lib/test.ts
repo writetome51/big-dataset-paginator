@@ -144,7 +144,7 @@ async function runTests(){
 	// Make sure there are no problems if itemsPerPage is bigger than dataTotal:
 	dataSource.dataTotal = 21;
 	paginator.itemsPerPage = 25;
-	await paginator.reset(); // currentPageNumber is now 1.
+	await paginator.resetToFirstPage(); // currentPageNumber is now 1.
 
 	if (arraysMatch(
 		paginator.currentPage, getCountup(1, 21)
@@ -154,7 +154,7 @@ async function runTests(){
 
 
 	dataSource.dataTotal = 77;
-	await paginator.reset();
+	await paginator.resetToFirstPage();
 	let page1 = paginator.currentPage;
 
 	await paginator.set_currentPageNumber(paginator.currentPageNumber + 1);
@@ -179,7 +179,7 @@ async function runTests(){
 	dataSource.dataTotal = 103;
 	paginator.itemsPerBatch = 200;
 	paginator.itemsPerPage = 11;
-	await paginator.reset();
+	await paginator.resetToFirstPage();
 
 	page1 = paginator.currentPage;
 
