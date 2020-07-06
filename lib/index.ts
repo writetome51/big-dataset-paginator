@@ -1,94 +1,97 @@
-import { AbstractAppPaginator } from '@writetome51/abstract-app-paginator';
+import { AbstractBigDatasetPaginator } from '@writetome51/abstract-big-dataset-paginator';
 import { ArrayPaginator } from '@writetome51/array-paginator';
-import { BatchToPageTranslator } from '@writetome51/batch-to-page-translator';
-import { GetPageBatch } from '@writetome51/get-page-batch';
-import { PageLoader } from '@writetome51/page-loader';
-import { PaginationBatchInfo } from '@writetome51/pagination-batch-info';
-import { PaginationPageInfo } from '@writetome51/pagination-page-info';
+import { CurrentPage } from './current-page/lib';
+import { LoadToPageTranslator } from './load-to-page-translator/lib';
+import { PageLoadAccess } from './page-load-access/lib';
+import { PaginationLoadInfo } from './pagination-load-info/lib';
+import { PaginationPageInfo } from './pagination-page-info/lib';
+
 
 /***************************
- AppPaginator is intended for a real-world web application.  It automatically batchinates the full
- dataset in case it's huge.
- In the constructor you pass in a `dataSource` that returns data in batches.  Each batch can
- contain multiple pages worth of data.  (A batch is either the total amount of data you want the
+ BigDatasetPaginator is intended for a real-world web application.
+ In the constructor you pass in a `dataSource` that returns data in loads.  Each load can
+ contain multiple pages worth of data.  (A load is either the total amount of data you want the
  app to have loaded in memory at once, or the total amount of data the data source is willing to
- give you at once —— whichever is less.  Tell AppPaginator the batch size by setting the property
- `itemsPerBatch`.)  When the property `currentPageNumber` is given a value, this class requests
- from dataSource the batch that page is in. Then it places the items of the requested page in the
- property `currentPage`.
+ give you at once —— whichever is less.  Tell AppPaginator the load size with `setItemsPerLoad()`)
  ***************************/
 
-export class AppPaginator extends AbstractAppPaginator {
+export class BigDatasetPaginator extends AbstractBigDatasetPaginator {
 
 
 	constructor(
 		dataSource: {
 
-			// The number of items `getBatch()` returns must match `itemsPerBatch`.  If
-			// `isLastBatch` is true, it must only return the remaining items in the dataset
-			// and ignore itemsPerBatch.
+			// The number of items `getLoad()` returns must match `itemsPerLoad`.  If
+			// `isLastLoad` is true, it must only return the remaining items in the dataset
+			// and ignore itemsPerLoad.
 
-			getBatch: (
-				batchNumber: number, itemsPerBatch: number, isLastBatch: boolean
+			getLoad: (
+				loadNumber: number, itemsPerLoad: number, isLastLoad: boolean
 			) => Promise<any[]>;
 
-			// `dataTotal`: number of items in entire dataset, not the batch.
+			// `dataTotal`: number of items in entire dataset, not the load.
 			// This must stay accurate after actions that change the total, such as searches.
 
 			dataTotal: number;
 		}
-
 	) {
 		super(
-			dataSource,
-
 			// This setup function specifies all the interface requirements and handles dependency
 			// injection.  All the instances created are singletons to be shared.
 
 			function (dataSource): void {
 
-				let batchPaginator: {
-					currentPage: any[], currentPageNumber: number, itemsPerPage: number, data: any[]
+				let pageInfo: {
+					setItemsPerPage: (num) => void,
+					getItemsPerPage: () => number,
+					getTotalPages: () => number
 				};
-				batchPaginator = new ArrayPaginator();
-
-
-				let pageInfo: { itemsPerPage: number, totalPages: number };
-				pageInfo = new PaginationPageInfo(dataSource, batchPaginator);
+				pageInfo = new PaginationPageInfo(dataSource);
 				this.__pageInfo = pageInfo;
 
 
-				let batchInfo: {
-					itemsPerBatch: number, pagesPerBatch: number, currentBatchNumber: number,
-					currentBatchNumberIsLast: boolean
+				let loadInfo: {
+					setItemsPerLoad: (num) => void;
+					getItemsPerLoad: () => number;
+					setCurrentLoadNumber: (num) => void;
+					getCurrentLoadNumber: () => number | undefined;
+					currentLoadIsLast: () => boolean;
+					getTotalLoads: () => number;
+					getPagesPerLoad: () => number;
 				};
-				batchInfo = new PaginationBatchInfo(this.__pageInfo);
-				this.__batchInfo = batchInfo;
+				loadInfo = new PaginationLoadInfo(this.__pageInfo);
+				this.__loadInfo = loadInfo;
 
 
-				let bch2pgTranslator = new BatchToPageTranslator(this.__pageInfo, this.__batchInfo);
+				let load2pgTranslator = new LoadToPageTranslator(this.__pageInfo, this.__loadInfo);
 
-
-				let getPageBatch: {
-					containingPage: (pageNumber) => Promise<any[]>,
-					byForce_containingPage: (pageNumber) => Promise<any[]>
+				let pageLoadAccess: {
+					getLoadContainingPage: (pageNumber) => Promise<any[]>;
+					getRefreshedLoadContainingPage: (pageNumber) => Promise<any[]>;
 				};
-				getPageBatch = new GetPageBatch(
-					dataSource, this.__batchInfo, bch2pgTranslator
+				pageLoadAccess = new PageLoadAccess(
+					dataSource, this.__loadInfo, load2pgTranslator
 				);
 
-
-				let pageLoader: {
-					loadPage: (pageNumber) => Promise<void>,
-					forceLoadPage: (pageNumber) => Promise<void>,
-					loadedPage: any[]
+				let loadPaginator: {
+					getPage: (pageNumber) => any[],
+					data: any[]
 				};
-				pageLoader = new PageLoader(
-					batchPaginator, bch2pgTranslator, getPageBatch
-				);
-				this.__pageLoader = pageLoader;
+				loadPaginator = new ArrayPaginator();
 
-			}
+				let currentPage: {
+					get(): any[];
+					set(pageNumber): Promise<void>;
+					reset(pageNumber): Promise<void>;
+				};
+				currentPage = new CurrentPage(
+					loadPaginator, load2pgTranslator, pageLoadAccess
+				);
+				this.__currentPage = currentPage;
+
+			},
+
+			[dataSource]
 		);
 	}
 
