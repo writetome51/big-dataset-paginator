@@ -18,20 +18,18 @@
 
 ```ts
 // Get an instance (see constructor for dataSource details):
-let appPaginator = new AppPaginator(dataSource);
+let paginator = new BigDatasetPaginator(dataSource);
 
-// Make sure itemsPerPage has the value you want:
-appPaginator.itemsPerPage = 10;
-
-appPaginator.itemsPerBatch = 200;
+// Configure:
+paginator.setItemsPerPage(10);
+paginator.setItemsPerLoad(200);
 
 // Show the first page:
-await appPaginator.set_currentPageNumber(1);
-console.log(appPaginator.currentPage); // `[item1, item2, item3, item4,...]`
+await paginator.resetToFirstPage();
+console.log(paginator.getCurrentPage()); // `[item1, item2, item3, item4,...]`
 
-// The user performs a search to narrow down the dataset.
-// You want the paginator to react to this, so you do a reset:
-await appPaginator.reset();
+// Jump to different page:
+await paginator.setCurrentPageNumber(5);
 ```
 </details>
 
@@ -43,45 +41,21 @@ await appPaginator.reset();
 ```ts
 constructor(
     dataSource: {
-
-        getBatch: (
-            batchNumber: number, itemsPerBatch: number, isLastBatch: boolean
+    
+        // The number of items `getLoad()` returns must match `itemsPerLoad`.  If
+        // `isLastLoad` is true, it must only return the remaining items in the dataset
+        // and ignore itemsPerLoad.
+    
+        getLoad: (
+            loadNumber: number, itemsPerLoad: number, isLastLoad: boolean
         ) => Promise<any[]>;
-            // The number of items `getBatch()` returns must match `itemsPerBatch`.
-            // If `isLastBatch` is true, it must only return the remaining items 
-            // in the dataset and ignore itemsPerBatch.
-
+    
+        // `dataTotal`: number of items in entire dataset, not the load.
+        // This must stay accurate after actions that change the total, such as searches.
+    
         dataTotal: number;
-            // `dataTotal`: number of items in entire dataset, not the batch.
-            // This must stay accurate after actions that change the total, such 
-            // as searches.
     }
 )
-```
-</details>
-
-
-## Properties
-<details>
-<summary>view properties</summary>
-
-```ts
-itemsPerPage: number
-    // Default is 25.
-
-itemsPerBatch: number
-    // Total number of items the app can have loaded in memory.
-    // If your data source doesn't allow you to request batches the size of multiple
-    // pages, set this to same value as this.itemsPerPage.
-    // NOTE: if this isn't evenly divisible by this.itemsPerPage, its value is 
-    // lowered until it is.
-
-currentPageNumber: number // read-only
-
-currentPage: any[] // read-only
-    // All items in the current page.
-
-totalPages: number // read-only
 ```
 </details>
 
@@ -91,14 +65,24 @@ totalPages: number // read-only
 <summary>view methods</summary>
 
 ```ts
-async set_currentPageNumber(num): Promise<void>
-    // updates this.currentPage
+setItemsPerLoad(num): void
 
-async resetToFirstPage(): Promise<void>
-    // force-loads page 1.
-    // Intended to be called after the order of the dataset changes (like 
-    // after sorting), or after the total number of items changes (like after 
-    // a search).
+getItemsPerLoad(): number
+
+setItemsPerPage(num): void
+
+getItemsPerPage(): number
+
+setCurrentPageNumber(num): Promise<void>
+    // changes the page.
+
+getCurrentPageNumber(): number
+
+resetToFirstPage(): Promise<void>
+
+getCurrentPage(): any[]
+
+getTotalPages(): number
 ```
 </details>
 

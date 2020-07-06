@@ -1,7 +1,7 @@
 {
   "name": "@writetome51/big-dataset-paginator",
   "version": "0.0.1",
-  "description": "A class for pagination in a real-world web application",
+  "description": "A class intended for pagination where all the data to be paginated can't be loaded in memory at once",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
