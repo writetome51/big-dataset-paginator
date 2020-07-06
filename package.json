@@ -1,6 +1,6 @@
 {
-  "name": "@writetome51/app-paginator",
-  "version": "6.0.0",
+  "name": "@writetome51/big-dataset-paginator",
+  "version": "0.0.1",
   "description": "A class for pagination in a real-world web application",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,11 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/writetome51/app-paginator.git"
+    "url": "git+https://github.com/writetome51/big-dataset-paginator.git"
   },
   "keywords": [
     "app",
     "application",
+    "big",
+    "data",
+    "dataset",
     "paginator",
     "pagination",
     "paginate",
@@ -24,20 +27,15 @@
   "author": "Steve Thompson",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/writetome51/app-paginator/issues"
+    "url": "https://github.com/writetome51/big-dataset-paginator/issues"
   },
-  "homepage": "https://github.com/writetome51/app-paginator#readme",
+  "homepage": "https://github.com/writetome51/big-dataset-paginator#readme",
   "devDependencies": {
     "@writetome51/arrays-match": "^1.0.6",
     "@writetome51/get-countup-countdown": "^1.0.3"
   },
   "dependencies": {
-    "@writetome51/abstract-app-paginator": "^1.0.0",
-    "@writetome51/array-paginator": "^5.0.0",
-    "@writetome51/batch-to-page-translator": "^1.0.0",
-    "@writetome51/get-page-batch": "^1.0.0",
-    "@writetome51/page-loader": "^3.0.0",
-    "@writetome51/pagination-batch-info": "^1.0.0",
-    "@writetome51/pagination-page-info": "^0.0.1"
+    "@writetome51/abstract-big-dataset-paginator": "^0.0.1",
+    "@writetome51/array-paginator": "^6.0.0"
   }
 }
