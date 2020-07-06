@@ -1,10 +1,7 @@
 import { AbstractBigDatasetPaginator } from '@writetome51/abstract-big-dataset-paginator';
-import { ArrayPaginator } from '@writetome51/array-paginator';
-import { CurrentPage } from './current-page/lib';
-import { LoadToPageTranslator } from './load-to-page-translator/lib';
-import { PageLoadAccess } from './page-load-access/lib';
-import { PaginationLoadInfo } from './pagination-load-info/lib';
-import { PaginationPageInfo } from './pagination-page-info/lib';
+import { PaginationLoadInfo } from './pagination-load-info';
+import { PaginationPageInfo } from './pagination-page-info';
+import { getInstance_CurrentPage } from '@writetome51/current-page';
 
 
 /***************************
@@ -40,59 +37,15 @@ export class BigDatasetPaginator extends AbstractBigDatasetPaginator {
 		}
 	) {
 		super(
-			// This setup function specifies all the interface requirements and handles dependency
-			// injection.  All the instances created are singletons to be shared.
 
 			function (dataSource): void {
+				this.__pageInfo = new PaginationPageInfo(dataSource);
 
-				let pageInfo: {
-					setItemsPerPage: (num) => void,
-					getItemsPerPage: () => number,
-					getTotalPages: () => number
-				};
-				pageInfo = new PaginationPageInfo(dataSource);
-				this.__pageInfo = pageInfo;
+				this.__loadInfo = new PaginationLoadInfo(this.__pageInfo);
 
-
-				let loadInfo: {
-					setItemsPerLoad: (num) => void;
-					getItemsPerLoad: () => number;
-					setCurrentLoadNumber: (num) => void;
-					getCurrentLoadNumber: () => number | undefined;
-					currentLoadIsLast: () => boolean;
-					getTotalLoads: () => number;
-					getPagesPerLoad: () => number;
-				};
-				loadInfo = new PaginationLoadInfo(this.__pageInfo);
-				this.__loadInfo = loadInfo;
-
-
-				let load2pgTranslator = new LoadToPageTranslator(this.__pageInfo, this.__loadInfo);
-
-				let pageLoadAccess: {
-					getLoadContainingPage: (pageNumber) => Promise<any[]>;
-					getRefreshedLoadContainingPage: (pageNumber) => Promise<any[]>;
-				};
-				pageLoadAccess = new PageLoadAccess(
-					dataSource, this.__loadInfo, load2pgTranslator
+				this.__currentPage = getInstance_CurrentPage(
+					{dataSource, pageInfo: this.__pageInfo, loadInfo: this.__loadInfo}
 				);
-
-				let loadPaginator: {
-					getPage: (pageNumber) => any[],
-					data: any[]
-				};
-				loadPaginator = new ArrayPaginator();
-
-				let currentPage: {
-					get(): any[];
-					set(pageNumber): Promise<void>;
-					reset(pageNumber): Promise<void>;
-				};
-				currentPage = new CurrentPage(
-					loadPaginator, load2pgTranslator, pageLoadAccess
-				);
-				this.__currentPage = currentPage;
-
 			},
 
 			[dataSource]

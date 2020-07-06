@@ -1,4 +1,4 @@
-# AppPaginator
+# BigDatasetPaginator
 
  A TypeScript/JavaScript class for pagination in a real-world web application. It  
  automatically batchinates the full dataset in case it's huge.  
@@ -105,19 +105,19 @@ async resetToFirstPage(): Promise<void>
 
 ## Inheritance Chain
 
-AppPaginator<--[AbstractAppPaginator](https://github.com/writetome51/abstract-app-paginator#abstractapppaginator)
+BigDatasetPaginator<--[AbstractBigDatasetPaginator](https://github.com/writetome51/abstract-big-dataset-paginator#abstractbigdatasetpaginator)
 
 
 ## Installation
-`npm i  @writetome51/app-paginator`
+`npm i  @writetome51/big-dataset-paginator`
 
 
 ## Loading
 ```ts
 // If using TypeScript:
-import { AppPaginator } from '@writetome51/app-paginator';
+import { BigDatasetPaginator } from '@writetome51/big-dataset-paginator';
 // If using ES5 JavaScript:
-var AppPaginator = require('@writetome51/app-paginator').AppPaginator;
+var BigDatasetPaginator = require('@writetome51/big-dataset-paginator').BigDatasetPaginator;
 ```
 
 
