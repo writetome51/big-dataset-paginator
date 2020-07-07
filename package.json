@@ -36,7 +36,6 @@
   },
   "dependencies": {
     "@writetome51/abstract-big-dataset-paginator": "^0.0.1",
-    "@writetome51/array-paginator": "^6.0.0",
-    "@writetome51/current-page": "^0.0.1"
+    "@writetome51/current-page": "^1.0.0"
   }
 }
