@@ -79,6 +79,9 @@ setCurrentPageNumber(num): Promise<void>
 getCurrentPageNumber(): number
 
 resetToFirstPage(): Promise<void>
+    // Intended to be called after the order of the dataset changes 
+    // (like after sorting), or after the total number of items changes 
+    // (like after a search).
 
 getCurrentPage(): any[]
 
