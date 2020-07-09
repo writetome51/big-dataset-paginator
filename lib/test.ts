@@ -36,6 +36,7 @@ async function runTests() {
 		++errorsTriggered;
 	}
 	try {
+		// @ts-ignore
 		paginator.setItemsPerPage('1');
 	} catch (e) {
 		++errorsTriggered;
@@ -56,6 +57,7 @@ async function runTests() {
 		++errorsTriggered;
 	}
 	try {
+		// @ts-ignore
 		paginator.setItemsPerLoad('1');
 	} catch (e) {
 		++errorsTriggered;
@@ -76,6 +78,7 @@ async function runTests() {
 		++errorsTriggered;
 	}
 	try {
+		// @ts-ignore
 		await paginator.setCurrentPageNumber('1');
 	} catch (e) {
 		++errorsTriggered;

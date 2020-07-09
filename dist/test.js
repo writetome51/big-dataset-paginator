@@ -43,6 +43,7 @@ function runTests() {
             ++errorsTriggered;
         }
         try {
+            // @ts-ignore
             paginator.setItemsPerPage('1');
         }
         catch (e) {
@@ -66,6 +67,7 @@ function runTests() {
             ++errorsTriggered;
         }
         try {
+            // @ts-ignore
             paginator.setItemsPerLoad('1');
         }
         catch (e) {
@@ -89,6 +91,7 @@ function runTests() {
             ++errorsTriggered;
         }
         try {
+            // @ts-ignore
             yield paginator.setCurrentPageNumber('1');
         }
         catch (e) {
