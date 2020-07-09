@@ -1,15 +1,15 @@
 # BigDatasetPaginator
 
- A TypeScript/JavaScript class for pagination in a real-world web application. It  
- automatically batchinates the full dataset in case it's huge.  
- In the constructor you pass in a `dataSource` that returns data in batches that  
- contain multiple pages worth. (A batch is either the total amount of data you  
- want the app to have loaded in memory at once, or the total amount of data the  
- data source is willing to give you at once —— whichever is less. Tell  
- AppPaginator the batch size by setting the property `itemsPerBatch`.) When the  
- method `set_currentPageNumber(num)` is called, this class requests from  
- `dataSource` the batch that page is in. Then the items of the requested page  
- will be in the property `currentPage`.
+ A TypeScript/JavaScript class intended for pagination where all the data to  
+ be paginated can't be loaded in memory at once. Instead of only requesting  
+ one page of data at-a-time from the source, the paginator has the option of  
+ requesting multiple pages of data to make requests more efficient.  You  
+ configure this with the functions `setItemsPerPage()` and `setItemsPerLoad()`.  
+ (A load is either the total number of items you want the app to have in  
+ memory at once, or the total number of items your data source is willing to  
+ give you at once —— whichever is less.)  
+ In the constructor you pass in a `dataSource` that returns data one load  
+ at-a-time.  It must also contain a `dataTotal`.
 
 
 ## Basic Usage
