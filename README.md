@@ -24,6 +24,11 @@ let paginator = new BigDatasetPaginator(dataSource);
 paginator.setItemsPerPage(10);
 paginator.setItemsPerLoad(200);
 
+// itemsPerLoad / itemsPerPage must divide evenly.  If they don't,
+// itemsPerLoad will automatically lower until they do:
+paginator.setItemsPerPage(15);
+paginator.getItemsPerLoad(); // --> 195
+
 // Show the first page:
 await paginator.resetToFirstPage();
 console.log(paginator.getCurrentPage()); // `[item1, item2, item3, item4,...]`
@@ -66,6 +71,8 @@ constructor(
 
 ```ts
 setItemsPerLoad(num): void
+    // itemsPerLoad / itemsPerPage must divide evenly.  If they don't,
+    // itemsPerLoad will automatically lower until they do.
 
 getItemsPerLoad(): number
 
@@ -104,7 +111,8 @@ BigDatasetPaginator<--[AbstractBigDatasetPaginator](https://github.com/writetome
 // If using TypeScript:
 import { BigDatasetPaginator } from '@writetome51/big-dataset-paginator';
 // If using ES5 JavaScript:
-var BigDatasetPaginator = require('@writetome51/big-dataset-paginator').BigDatasetPaginator;
+var BigDatasetPaginator = 
+    require('@writetome51/big-dataset-paginator').BigDatasetPaginator;
 ```
 
 

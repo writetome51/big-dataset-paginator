@@ -117,9 +117,9 @@ function runTests() {
         // Make sure itemsPerLoad is kept evenly divisible by itemsPerPage:
         paginator.setItemsPerPage(2);
         paginator.setItemsPerLoad(3);
-        let result1 = paginator.getItemsPerLoad();
+        let result1 = paginator.getItemsPerLoad(); // should be 2
         paginator.setItemsPerLoad(23);
-        let result2 = paginator.getItemsPerLoad();
+        let result2 = paginator.getItemsPerLoad(); // should be 22
         if (result1 === 2 && result2 === 22)
             console.log('test 5 passed');
         else
