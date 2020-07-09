@@ -112,11 +112,11 @@ function runTests() {
         else
             console.log('test 4 FAILED');
         // Make sure itemsPerLoad is kept evenly divisible by itemsPerPage:
-        paginator.itemsPerPage = 2;
-        paginator.itemsPerLoad = 3;
-        let result1 = paginator.itemsPerLoad;
-        paginator.itemsPerLoad = 23;
-        let result2 = paginator.itemsPerLoad;
+        paginator.setItemsPerPage(2);
+        paginator.setItemsPerLoad(3);
+        let result1 = paginator.getItemsPerLoad();
+        paginator.setItemsPerLoad(23);
+        let result2 = paginator.getItemsPerLoad();
         if (result1 === 2 && result2 === 22)
             console.log('test 5 passed');
         else
@@ -126,39 +126,41 @@ function runTests() {
         let actualResults = [];
         let itemsPerPageVariations = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
         itemsPerPageVariations.forEach((itemsPerPage) => {
-            paginator.itemsPerPage = itemsPerPage;
-            actualResults.push(paginator.totalPages);
+            paginator.setItemsPerPage(itemsPerPage);
+            actualResults.push(paginator.getTotalPages());
         });
         if (arrays_match_1.arraysMatch(expectedResults, actualResults))
             console.log('test 6 passed');
         else
             console.log('test 6 FAILED');
         // Make sure there are no problems if itemsPerLoad is bigger than dataTotal:
-        paginator.itemsPerPage = 10;
-        paginator.itemsPerLoad = 40;
-        yield paginator.set_currentPageNumber(3);
-        if (arrays_match_1.arraysMatch(paginator.currentPage, [21, 22, 23, 24, 25, 26, 27, 28, 29]) &&
-            paginator.totalPages === 3)
+        paginator.setItemsPerPage(10);
+        paginator.setItemsPerLoad(30);
+        yield paginator.setCurrentPageNumber(1);
+        if (arrays_match_1.arraysMatch(paginator.getCurrentPage(), get_countup_countdown_1.getCountup(1, 10)) &&
+            paginator.getTotalPages() === 3)
             console.log('test 7 passed');
         else
             console.log('test 7 FAILED');
         // Make sure there are no problems if itemsPerPage is bigger than dataTotal:
         dataSource.dataTotal = 21;
-        paginator.itemsPerPage = 25;
-        yield paginator.resetToFirstPage(); // currentPageNumber is now 1.
-        if (arrays_match_1.arraysMatch(paginator.currentPage, get_countup_countdown_1.getCountup(1, 21)))
+        paginator.setItemsPerPage(22);
+        yield paginator.resetToFirstPage();
+        if (arrays_match_1.arraysMatch(paginator.getCurrentPage(), get_countup_countdown_1.getCountup(1, 21)))
             console.log('test 8 passed');
         else
             console.log('test 8 FAILED');
         dataSource.dataTotal = 77;
+        paginator.setItemsPerPage(25);
+        paginator.setItemsPerLoad(25);
         yield paginator.resetToFirstPage();
-        let page1 = paginator.currentPage;
-        yield paginator.set_currentPageNumber(paginator.currentPageNumber + 1);
-        let page2 = paginator.currentPage;
-        yield paginator.set_currentPageNumber(paginator.currentPageNumber + 1);
-        let page3 = paginator.currentPage;
-        yield paginator.set_currentPageNumber(paginator.currentPageNumber + 1);
-        let page4 = paginator.currentPage;
+        let page1 = paginator.getCurrentPage();
+        yield paginator.setCurrentPageNumber(paginator.getCurrentPageNumber() + 1);
+        let page2 = paginator.getCurrentPage();
+        yield paginator.setCurrentPageNumber(paginator.getCurrentPageNumber() + 1);
+        let page3 = paginator.getCurrentPage();
+        yield paginator.setCurrentPageNumber(paginator.getCurrentPageNumber() + 1);
+        let page4 = paginator.getCurrentPage();
         if (arrays_match_1.arraysMatch(page1, get_countup_countdown_1.getCountup(1, 25)) &&
             arrays_match_1.arraysMatch(page2, get_countup_countdown_1.getCountup(26, 50)) &&
             arrays_match_1.arraysMatch(page3, get_countup_countdown_1.getCountup(51, 75)) &&
@@ -167,18 +169,18 @@ function runTests() {
         else
             console.log('test 9 FAILED');
         dataSource.dataTotal = 103;
-        paginator.itemsPerLoad = 200;
-        paginator.itemsPerPage = 11;
+        paginator.setItemsPerLoad(200);
+        paginator.setItemsPerPage(11);
         yield paginator.resetToFirstPage();
-        page1 = paginator.currentPage;
-        yield paginator.set_currentPageNumber(paginator.currentPageNumber + 1);
-        page2 = paginator.currentPage;
-        yield paginator.set_currentPageNumber(paginator.currentPageNumber + 1);
-        page3 = paginator.currentPage;
-        yield paginator.set_currentPageNumber(paginator.currentPageNumber + 1);
-        page4 = paginator.currentPage;
-        yield paginator.set_currentPageNumber(10);
-        let page10 = paginator.currentPage;
+        page1 = paginator.getCurrentPage();
+        yield paginator.setCurrentPageNumber(paginator.getCurrentPageNumber() + 1);
+        page2 = paginator.getCurrentPage();
+        yield paginator.setCurrentPageNumber(paginator.getCurrentPageNumber() + 1);
+        page3 = paginator.getCurrentPage();
+        yield paginator.setCurrentPageNumber(paginator.getCurrentPageNumber() + 1);
+        page4 = paginator.getCurrentPage();
+        yield paginator.setCurrentPageNumber(10);
+        let page10 = paginator.getCurrentPage();
         if (arrays_match_1.arraysMatch(page1, get_countup_countdown_1.getCountup(1, 11)) &&
             arrays_match_1.arraysMatch(page2, get_countup_countdown_1.getCountup(12, 22)) &&
             arrays_match_1.arraysMatch(page3, get_countup_countdown_1.getCountup(23, 33)) &&
@@ -189,7 +191,7 @@ function runTests() {
             console.log('test 10 FAILED');
         errorTriggered = false;
         try {
-            yield paginator.set_currentPageNumber(11);
+            yield paginator.setCurrentPageNumber(11);
         }
         catch (e) {
             errorTriggered = true;

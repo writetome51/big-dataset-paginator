@@ -33,7 +33,7 @@
     "@writetome51/get-countup-countdown": "^1.0.3"
   },
   "dependencies": {
-    "@writetome51/abstract-big-dataset-paginator": "^0.0.1",
-    "@writetome51/current-page": "^1.0.0"
+    "@writetome51/abstract-big-dataset-paginator": "^0.0.2",
+    "@writetome51/current-page": "^1.0.1"
   }
 }

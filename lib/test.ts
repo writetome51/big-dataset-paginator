@@ -2,8 +2,8 @@ import { BigDatasetPaginator } from './index';
 import { getCountup } from '@writetome51/get-countup-countdown';
 import { arraysMatch } from '@writetome51/arrays-match';
 
-async function runTests(){
 
+async function runTests() {
 
 	// create a dataSource object:
 	let dataSource = {
@@ -21,19 +21,18 @@ async function runTests(){
 
 	let paginator = new BigDatasetPaginator(dataSource);
 
+
 	// Test validation.
 
 	let errorsTriggered = 0;
 	try {
 		paginator.setItemsPerPage(0);
-	}
-	catch (e) {
+	} catch (e) {
 		++errorsTriggered;
 	}
 	try {
 		paginator.setItemsPerPage(-1);
-	}
-	catch (e) {
+	} catch (e) {
 		++errorsTriggered;
 	}
 	try {
@@ -48,20 +47,17 @@ async function runTests(){
 	errorsTriggered = 0;
 	try {
 		paginator.setItemsPerLoad(0);
-	}
-	catch (e) {
+	} catch (e) {
 		++errorsTriggered;
 	}
 	try {
 		paginator.setItemsPerLoad(-1);
-	}
-	catch (e) {
+	} catch (e) {
 		++errorsTriggered;
 	}
 	try {
 		paginator.setItemsPerLoad('1');
-	}
-	catch (e) {
+	} catch (e) {
 		++errorsTriggered;
 	}
 	if (errorsTriggered === 3) console.log('test 2 passed');
@@ -71,20 +67,17 @@ async function runTests(){
 	errorsTriggered = 0;
 	try {
 		await paginator.setCurrentPageNumber(0);
-	}
-	catch (e) {
+	} catch (e) {
 		++errorsTriggered;
 	}
 	try {
 		await paginator.setCurrentPageNumber(-1);
-	}
-	catch (e) {
+	} catch (e) {
 		++errorsTriggered;
 	}
 	try {
 		await paginator.setCurrentPageNumber('1');
-	}
-	catch (e) {
+	} catch (e) {
 		++errorsTriggered;
 	}
 
@@ -106,11 +99,11 @@ async function runTests(){
 
 
 // Make sure itemsPerLoad is kept evenly divisible by itemsPerPage:
-	paginator.itemsPerPage = 2;
-	paginator.itemsPerLoad = 3;
-	let result1 = paginator.itemsPerLoad;
-	paginator.itemsPerLoad = 23;
-	let result2 = paginator.itemsPerLoad;
+	paginator.setItemsPerPage(2);
+	paginator.setItemsPerLoad(3);
+	let result1 = paginator.getItemsPerLoad();
+	paginator.setItemsPerLoad(23);
+	let result2 = paginator.getItemsPerLoad();
 
 	if (result1 === 2 && result2 === 22) console.log('test 5 passed');
 	else console.log('test 5 FAILED');
@@ -121,50 +114,50 @@ async function runTests(){
 	let actualResults = [];
 	let itemsPerPageVariations = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
 	itemsPerPageVariations.forEach((itemsPerPage) => {
-		paginator.itemsPerPage = itemsPerPage;
-		actualResults.push(paginator.totalPages);
+		paginator.setItemsPerPage(itemsPerPage);
+		actualResults.push(paginator.getTotalPages());
 	});
 	if (arraysMatch(expectedResults, actualResults)) console.log('test 6 passed');
 	else console.log('test 6 FAILED');
 
 
 	// Make sure there are no problems if itemsPerLoad is bigger than dataTotal:
-	paginator.itemsPerPage = 10;
-	paginator.itemsPerLoad = 40;
-	await paginator.set_currentPageNumber(3);
+	paginator.setItemsPerPage(10);
+	paginator.setItemsPerLoad(30);
+	await paginator.setCurrentPageNumber(1);
 
-	if (arraysMatch(paginator.currentPage, [21, 22, 23, 24, 25, 26, 27, 28, 29]) &&
-		paginator.totalPages === 3) console.log('test 7 passed');
+	if (
+		arraysMatch(paginator.getCurrentPage(), getCountup(1, 10)) &&
+		paginator.getTotalPages() === 3
+	) console.log('test 7 passed');
 	else console.log('test 7 FAILED');
 
 
 	// Make sure there are no problems if itemsPerPage is bigger than dataTotal:
 	dataSource.dataTotal = 21;
-	paginator.itemsPerPage = 25;
-	await paginator.resetToFirstPage(); // currentPageNumber is now 1.
+	paginator.setItemsPerPage(22);
+	await paginator.resetToFirstPage();
 
 	if (arraysMatch(
-		paginator.currentPage, getCountup(1, 21)
-	))
-		console.log('test 8 passed');
+		paginator.getCurrentPage(), getCountup(1, 21)
+	)) console.log('test 8 passed');
 	else console.log('test 8 FAILED');
 
 
 	dataSource.dataTotal = 77;
+	paginator.setItemsPerPage(25);
+	paginator.setItemsPerLoad(25);
 	await paginator.resetToFirstPage();
-	let page1 = paginator.currentPage;
+	let page1 = paginator.getCurrentPage();
 
-	await paginator.set_currentPageNumber(paginator.currentPageNumber + 1);
+	await paginator.setCurrentPageNumber(paginator.getCurrentPageNumber() + 1);
+	let page2 = paginator.getCurrentPage();
 
-	let page2 = paginator.currentPage;
+	await paginator.setCurrentPageNumber(paginator.getCurrentPageNumber() + 1);
+	let page3 = paginator.getCurrentPage();
 
-	await paginator.set_currentPageNumber(paginator.currentPageNumber + 1);
-
-	let page3 = paginator.currentPage;
-
-	await paginator.set_currentPageNumber(paginator.currentPageNumber + 1);
-
-	let page4 = paginator.currentPage;
+	await paginator.setCurrentPageNumber(paginator.getCurrentPageNumber() + 1);
+	let page4 = paginator.getCurrentPage();
 
 	if (arraysMatch(page1, getCountup(1, 25)) &&
 		arraysMatch(page2, getCountup(26, 50)) &&
@@ -174,27 +167,27 @@ async function runTests(){
 
 
 	dataSource.dataTotal = 103;
-	paginator.itemsPerLoad = 200;
-	paginator.itemsPerPage = 11;
+	paginator.setItemsPerLoad(200);
+	paginator.setItemsPerPage(11);
 	await paginator.resetToFirstPage();
 
-	page1 = paginator.currentPage;
+	page1 = paginator.getCurrentPage();
 
-	await paginator.set_currentPageNumber(paginator.currentPageNumber + 1);
+	await paginator.setCurrentPageNumber(paginator.getCurrentPageNumber() + 1);
 
-	page2 = paginator.currentPage;
+	page2 = paginator.getCurrentPage();
 
-	await paginator.set_currentPageNumber(paginator.currentPageNumber + 1);
+	await paginator.setCurrentPageNumber(paginator.getCurrentPageNumber() + 1);
 
-	page3 = paginator.currentPage;
+	page3 = paginator.getCurrentPage();
 
-	await paginator.set_currentPageNumber(paginator.currentPageNumber + 1);
+	await paginator.setCurrentPageNumber(paginator.getCurrentPageNumber() + 1);
 
-	page4 = paginator.currentPage;
+	page4 = paginator.getCurrentPage();
 
-	await paginator.set_currentPageNumber(10);
+	await paginator.setCurrentPageNumber(10);
 
-	let page10 = paginator.currentPage;
+	let page10 = paginator.getCurrentPage();
 
 	if (arraysMatch(page1, getCountup(1, 11)) &&
 		arraysMatch(page2, getCountup(12, 22)) &&
@@ -206,7 +199,7 @@ async function runTests(){
 
 	errorTriggered = false;
 	try {
-		await paginator.set_currentPageNumber(11);
+		await paginator.setCurrentPageNumber(11);
 	} catch (e) {
 		errorTriggered = true;
 	}
