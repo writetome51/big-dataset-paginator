@@ -27,7 +27,7 @@
   "bugs": {
     "url": "https://github.com/writetome51/big-dataset-paginator/issues"
   },
-  "homepage": "https://github.com/writetome51/big-dataset-paginator#readme",
+  "homepage": "https://github.com/writetome51/big-dataset-paginator/tree/v0.0.1#readme",
   "devDependencies": {
     "@writetome51/arrays-match": "^1.0.6",
     "@writetome51/get-countup-countdown": "^1.0.3"
