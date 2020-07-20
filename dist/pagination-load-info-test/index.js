@@ -76,3 +76,4 @@ class PaginationLoadInfo extends base_class_1.BaseClass {
     }
 }
 exports.PaginationLoadInfo = PaginationLoadInfo;
+//
