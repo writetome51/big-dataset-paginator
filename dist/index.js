@@ -1,9 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const abstract_big_dataset_paginator_1 = require("@writetome51/abstract-big-dataset-paginator");
-const current_page_1 = require("@writetome51/current-page");
-const pagination_load_info_1 = require("./pagination-load-info");
-const pagination_page_info_1 = require("./pagination-page-info");
+import {AbstractBigDatasetPaginator} from '@writetome51/abstract-big-dataset-paginator';
+import {getInstance_CurrentPage} from '@writetome51/current-page';
+import {PaginationLoadInfo} from './pagination-load-info/index.js';
+import {PaginationPageInfo} from './pagination-page-info/index.js';
+
+
 /***************************
  BigDatasetPaginator is intended for pagination where all the data to be paginated can't be
  loaded in memory at once. Instead of only requesting one page of data at-a-time from the data
@@ -15,13 +15,21 @@ const pagination_page_info_1 = require("./pagination-page-info");
  In the constructor you pass in a `dataSource` that returns data one load at-a-time.  It must
  also contain a `dataTotal`.
  ***************************/
-class BigDatasetPaginator extends abstract_big_dataset_paginator_1.AbstractBigDatasetPaginator {
-    constructor(dataSource) {
-        super(function (dataSource) {
-            this.__pageInfo = new pagination_page_info_1.PaginationPageInfo(dataSource);
-            this.__loadInfo = new pagination_load_info_1.PaginationLoadInfo(this.__pageInfo);
-            this.__currentPage = current_page_1.getInstance_CurrentPage({ dataSource, pageInfo: this.__pageInfo, loadInfo: this.__loadInfo });
-        }, [dataSource]);
-    }
+
+export class BigDatasetPaginator extends AbstractBigDatasetPaginator {
+
+	constructor(dataSource) {
+		super(
+			function(dataSource) {
+				this.__pageInfo = new PaginationPageInfo(dataSource);
+				this.__loadInfo = new PaginationLoadInfo(this.__pageInfo);
+				this.__currentPage = getInstance_CurrentPage({
+					dataSource,
+					pageInfo: this.__pageInfo,
+					loadInfo: this.__loadInfo
+				});
+			},
+			[dataSource]
+		);
+	}
 }
-exports.BigDatasetPaginator = BigDatasetPaginator;

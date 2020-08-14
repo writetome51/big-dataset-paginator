@@ -1,13 +1,11 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const error_if_not_integer_1 = require("error-if-not-integer");
-const get_rounded_up_down_1 = require("@writetome51/get-rounded-up-down");
-class PaginationPageInfo {
+import { errorIfNotInteger } from 'error-if-not-integer';
+import { getRoundedUp } from '@writetome51/get-rounded-up-down';
+export class PaginationPageInfo {
     constructor(__dataSource) {
         this.__dataSource = __dataSource;
     }
     setItemsPerPage(num) {
-        error_if_not_integer_1.errorIfNotInteger(num);
+        errorIfNotInteger(num);
         if (num < 1)
             throw new Error('The number of items per page must be at least 1');
         this.__itemsPerPage = num;
@@ -16,7 +14,6 @@ class PaginationPageInfo {
         return this.__itemsPerPage;
     }
     getTotalPages() {
-        return get_rounded_up_down_1.getRoundedUp(this.__dataSource.dataTotal / this.getItemsPerPage());
+        return getRoundedUp(this.__dataSource.dataTotal / this.getItemsPerPage());
     }
 }
-exports.PaginationPageInfo = PaginationPageInfo;

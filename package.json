@@ -1,7 +1,8 @@
 {
   "name": "@writetome51/big-dataset-paginator",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A class intended for pagination where all the data to be paginated can't be loaded in memory at once",
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -29,11 +30,11 @@
   },
   "homepage": "https://github.com/writetome51/big-dataset-paginator/tree/v0.0.1#readme",
   "devDependencies": {
-    "@writetome51/arrays-match": "^1.0.6",
-    "@writetome51/get-countup-countdown": "^1.0.3"
+    "@writetome51/arrays-match": "^2.0.1",
+    "@writetome51/get-countup-countdown": "^2.0.1"
   },
   "dependencies": {
-    "@writetome51/abstract-big-dataset-paginator": "^0.0.2",
-    "@writetome51/current-page": "^1.0.1"
+    "@writetome51/abstract-big-dataset-paginator": "^1.0.0",
+    "@writetome51/current-page": "^2.0.0"
   }
 }

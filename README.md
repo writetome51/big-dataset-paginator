@@ -107,12 +107,8 @@ BigDatasetPaginator<--[AbstractBigDatasetPaginator](https://github.com/writetome
 
 
 ## Loading
-```ts
-// If using TypeScript:
+```js
 import { BigDatasetPaginator } from '@writetome51/big-dataset-paginator';
-// If using ES5 JavaScript:
-var BigDatasetPaginator = 
-    require('@writetome51/big-dataset-paginator').BigDatasetPaginator;
 ```
 
 
