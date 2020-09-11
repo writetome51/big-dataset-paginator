@@ -2,7 +2,7 @@ import { errorIfNotInteger } from 'error-if-not-integer';
 import { getRoundedUp } from '@writetome51/get-rounded-up-down';
 
 
-export class PaginationPageInfo {
+export class PageInfo {
 
 	private __itemsPerPage: number;
 

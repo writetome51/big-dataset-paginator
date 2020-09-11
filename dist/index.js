@@ -1,7 +1,7 @@
 import {AbstractBigDatasetPaginator} from '@writetome51/abstract-big-dataset-paginator';
-import {getInstance_CurrentPage} from '@writetome51/current-page';
-import {PaginationLoadInfo} from './pagination-load-info/index.js';
-import {PaginationPageInfo} from './pagination-page-info/index.js';
+import {getInstance_LoadedPage} from '@writetome51/loaded-page';
+import {LoadInfo} from './load-info/index.js';
+import {PageInfo} from './page-info/index.js';
 
 
 /***************************
@@ -19,17 +19,21 @@ import {PaginationPageInfo} from './pagination-page-info/index.js';
 export class BigDatasetPaginator extends AbstractBigDatasetPaginator {
 
 	constructor(dataSource) {
+
 		super(
 			function(dataSource) {
-				this.__pageInfo = new PaginationPageInfo(dataSource);
-				this.__loadInfo = new PaginationLoadInfo(this.__pageInfo);
-				this.__currentPage = getInstance_CurrentPage({
+				this.__pageInfo = new PageInfo(dataSource);
+				this.__loadInfo = new LoadInfo(this.__pageInfo);
+
+				this.__currentPage = getInstance_LoadedPage({
 					dataSource,
 					pageInfo: this.__pageInfo,
 					loadInfo: this.__loadInfo
 				});
 			},
+
 			[dataSource]
 		);
 	}
+
 }

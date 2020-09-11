@@ -1,4 +1,4 @@
-export declare class PaginationPageInfo {
+export declare class PageInfo {
 
 	private __dataSource;
 	private __itemsPerPage;
@@ -18,5 +18,4 @@ export declare class PaginationPageInfo {
 
 
 	getTotalPages(): number;
-
 }

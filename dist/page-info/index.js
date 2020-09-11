@@ -2,7 +2,7 @@ import {errorIfNotInteger} from 'error-if-not-integer';
 import {getRoundedUp} from '@writetome51/get-rounded-up-down';
 
 
-export class PaginationPageInfo {
+export class PageInfo {
 
 	constructor(__dataSource) {
 		this.__dataSource = __dataSource;
@@ -12,6 +12,7 @@ export class PaginationPageInfo {
 	setItemsPerPage(num) {
 		errorIfNotInteger(num);
 		if (num < 1) throw new Error('The number of items per page must be at least 1');
+
 		this.__itemsPerPage = num;
 	}
 
@@ -24,5 +25,4 @@ export class PaginationPageInfo {
 	getTotalPages() {
 		return getRoundedUp(this.__dataSource.dataTotal / this.getItemsPerPage());
 	}
-
 }

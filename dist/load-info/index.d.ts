@@ -1,12 +1,4 @@
-import { BaseClass } from '@writetome51/base-class';
-
-
-/********************
- Gives information about a dataset too big to be loaded all at once that
- is stored in memory one load at-a-time, with the intention of paginating the load.
- *******************/
-
-export declare class PaginationLoadInfo extends BaseClass {
+export declare class LoadInfo {
 
 	private __pageInfo;
 	private __itemsPerLoad;
@@ -45,5 +37,4 @@ export declare class PaginationLoadInfo extends BaseClass {
 	private __errorIfValueIsNotOneOrGreater;
 	private __checkValueOf_itemsPerLoad;
 	private __ensure_itemsPerLoad_isCompatibleWith_itemsPerPage;
-
 }

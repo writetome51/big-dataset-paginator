@@ -1,21 +1,19 @@
-import {BaseClass} from '@writetome51/base-class';
-import {errorIfNotInteger} from 'error-if-not-integer';
-import {getRoundedUp} from '@writetome51/get-rounded-up-down';
-import {hasValue} from '@writetome51/has-value-no-value';
-import {inRange} from '@writetome51/in-range';
-import {not} from '@writetome51/not';
+import { errorIfNotInteger } from 'error-if-not-integer';
+import { getRoundedUp } from '@writetome51/get-rounded-up-down';
+import { hasValue, noValue } from '@writetome51/has-value-no-value';
+import { inRange } from '@writetome51/in-range';
+import { not } from '@writetome51/not';
 
 
-/********************
- Gives information about a dataset too big to be loaded all at once that
- is stored in memory one load at-a-time, with the intention of paginating the load.
- *******************/
+export class LoadInfo {
 
-export class PaginationLoadInfo extends BaseClass {
+	private __itemsPerLoad: number;
+	private __currentLoadNumber: number;
 
-	constructor(__pageInfo) {
-		super();
-		this.__pageInfo = __pageInfo;
+
+	constructor(
+		private __pageInfo: { getItemsPerPage: () => number, getTotalPages: () => number }
+	) {
 	}
 
 
@@ -25,8 +23,9 @@ export class PaginationLoadInfo extends BaseClass {
 	}
 
 
-	getItemsPerLoad() {
-		this._errorIfPropertyHasNoValue('__itemsPerLoad', 'itemsPerLoad');
+	getItemsPerLoad(): number {
+		if (noValue(this.__itemsPerLoad)) throw new Error("The 'itemsPerLoad' has no value");
+
 		this.__checkValueOf_itemsPerLoad();
 		return this.__itemsPerLoad;
 	}
@@ -43,36 +42,37 @@ export class PaginationLoadInfo extends BaseClass {
 	}
 
 
-	getCurrentLoadNumber() {
+	getCurrentLoadNumber(): number | undefined {
 		return this.__currentLoadNumber;
 	}
 
 
-	currentLoadIsLast() {
+	currentLoadIsLast(): boolean {
 		return (this.getCurrentLoadNumber() === this.getTotalLoads());
 	}
 
 
-	getTotalLoads() {
+	getTotalLoads(): number {
 		return getRoundedUp(this.__pageInfo.getTotalPages() / this.getPagesPerLoad());
 	}
 
 
-	getPagesPerLoad() {
+	getPagesPerLoad(): number {
 		// Should not have to be rounded.  They will divide evenly.
 		return (this.getItemsPerLoad() / this.__pageInfo.getItemsPerPage());
 	}
 
 
-	__errorIfValueIsNotOneOrGreater(value, property) {
+	private __errorIfValueIsNotOneOrGreater(value, property): void {
 		errorIfNotInteger(value);
 		if (value < 1) throw new Error(`The "${property}" must be at least 1.`);
 	}
 
 
-	__checkValueOf_itemsPerLoad(newValue = undefined) {
+	private __checkValueOf_itemsPerLoad(newValue = undefined) {
 		let oldValue = this.__itemsPerLoad;
 		if (hasValue(newValue)) this.__itemsPerLoad = newValue;
+
 		this.__ensure_itemsPerLoad_isCompatibleWith_itemsPerPage();
 
 		// Whenever itemsPerLoad changes, there can no longer be a currentLoadNumber.  This would
@@ -86,14 +86,20 @@ export class PaginationLoadInfo extends BaseClass {
 	// they do.  So, sometimes after assigning a value to either itemsPerPage or itemsPerLoad,
 	// itemsPerLoad will change slightly.
 
-	__ensure_itemsPerLoad_isCompatibleWith_itemsPerPage() {
+	private __ensure_itemsPerLoad_isCompatibleWith_itemsPerPage(): void {
+
 		let itemsPerPage = this.__pageInfo.getItemsPerPage();
+
 		if (hasValue(itemsPerPage)) {
 			if (this.__itemsPerLoad < itemsPerPage) {
-				throw new Error(`The items per load cannot be less than items per page`);
+				throw new Error(
+					`The items per load cannot be less than items per page`
+				);
 			}
 			while ((this.__itemsPerLoad % itemsPerPage) !== 0) --this.__itemsPerLoad;
 		}
+
 	}
+
 
 }
