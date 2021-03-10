@@ -1,6 +1,6 @@
 {
   "name": "@writetome51/big-dataset-paginator",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A class intended for pagination where all the data to be paginated can't be loaded in memory at once",
   "type": "module",
   "main": "dist/index.js",
@@ -34,11 +34,11 @@
     "@writetome51/get-countup-countdown": ">=2.0.1"
   },
   "dependencies": {
-    "@writetome51/abstract-big-dataset-paginator": ">=1.0.0",
+    "@writetome51/abstract-big-dataset-paginator": "^2.0.0",
     "@writetome51/get-rounded-up-down": ">=3.0.1",
     "@writetome51/has-value-no-value": ">=2.0.0",
     "@writetome51/in-range": ">=2.0.2",
-    "@writetome51/loaded-page": ">=0.0.1",
+    "@writetome51/loaded-page": "^0.0.1",
     "@writetome51/not": ">=2.0.0",
     "error-if-not-integer": ">=2.0.1"
   }
