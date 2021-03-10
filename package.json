@@ -38,7 +38,7 @@
     "@writetome51/get-rounded-up-down": ">=3.0.1",
     "@writetome51/has-value-no-value": ">=2.0.0",
     "@writetome51/in-range": ">=2.0.2",
-    "@writetome51/loaded-page": "^0.0.1",
+    "@writetome51/loaded-page": "^0.1.0",
     "@writetome51/not": ">=2.0.0",
     "error-if-not-integer": ">=2.0.1"
   }
