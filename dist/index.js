@@ -19,13 +19,12 @@ import {PageInfo} from './page-info/index.js';
 export class BigDatasetPaginator extends AbstractBigDatasetPaginator {
 
 	constructor(dataSource) {
-
 		super(
 			function(dataSource) {
 				this.__pageInfo = new PageInfo(dataSource);
 				this.__loadInfo = new LoadInfo(this.__pageInfo);
 
-				this.__currentPage = getInstance_LoadedPage({
+				this.__loadedPage = getInstance_LoadedPage({
 					dataSource,
 					pageInfo: this.__pageInfo,
 					loadInfo: this.__loadInfo

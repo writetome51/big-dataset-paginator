@@ -18,7 +18,6 @@ import { PageInfo } from './page-info';
 
 export class BigDatasetPaginator extends AbstractBigDatasetPaginator {
 
-
 	constructor(
 		dataSource: {
 
@@ -43,7 +42,7 @@ export class BigDatasetPaginator extends AbstractBigDatasetPaginator {
 
 				this.__loadInfo = new LoadInfo(this.__pageInfo);
 
-				this.__currentPage = getInstance_LoadedPage(
+				this.__loadedPage = getInstance_LoadedPage(
 					{dataSource, pageInfo: this.__pageInfo, loadInfo: this.__loadInfo}
 				);
 			},
@@ -51,6 +50,5 @@ export class BigDatasetPaginator extends AbstractBigDatasetPaginator {
 			[dataSource]
 		);
 	}
-
 
 }

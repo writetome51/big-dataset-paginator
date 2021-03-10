@@ -130,7 +130,7 @@ async function runTests() {
 	// Make sure there are no problems if itemsPerPage is bigger than dataTotal:
 	dataSource.dataTotal = 21;
 	paginator.setItemsPerPage(22);
-	await paginator.resetToFirstPage();
+	await paginator.setCurrentPageNumber(1, {reload:true});
 	if (arraysMatch(paginator.getCurrentPage(), getCountup(1, 21))) console.log('test 8 passed');
 	else console.log('test 8 FAILED');
 
@@ -138,7 +138,7 @@ async function runTests() {
 	dataSource.dataTotal = 77;
 	paginator.setItemsPerPage(25);
 	paginator.setItemsPerLoad(25);
-	await paginator.resetToFirstPage();
+	await paginator.setCurrentPageNumber(1, {reload:true});
 	let page1 = paginator.getCurrentPage();
 	await paginator.setCurrentPageNumber(paginator.getCurrentPageNumber() + 1);
 	let page2 = paginator.getCurrentPage();
@@ -157,7 +157,7 @@ async function runTests() {
 	dataSource.dataTotal = 103;
 	paginator.setItemsPerLoad(200);
 	paginator.setItemsPerPage(11);
-	await paginator.resetToFirstPage();
+	await paginator.setCurrentPageNumber(1, {reload:true});
 	page1 = paginator.getCurrentPage();
 	await paginator.setCurrentPageNumber(paginator.getCurrentPageNumber() + 1);
 	page2 = paginator.getCurrentPage();
@@ -184,6 +184,24 @@ async function runTests() {
 	}
 	if (errorTriggered) console.log('test 11 passed');
 	else console.log('test 11 FAILED');
+
+
+
+	dataSource.dataTotal = 73;
+	paginator.setItemsPerLoad(22);
+	paginator.setItemsPerPage(11);
+	await paginator.setCurrentPageNumber(7, {reload:true});
+	let page7 = paginator.getCurrentPage();
+	await paginator.setCurrentPageNumber(paginator.getCurrentPageNumber() - 1);
+	let page6 = paginator.getCurrentPage();
+	await paginator.setCurrentPageNumber(1);
+	page1 = paginator.getCurrentPage();
+
+	if (
+		arraysMatch(page7, getCountup(67, 73)) &&
+		arraysMatch(page6, getCountup(56, 66)) &&
+		arraysMatch(page1, getCountup(1, 11))) console.log('test 12 passed');
+	else console.log('test 12 FAILED');
 
 }
 

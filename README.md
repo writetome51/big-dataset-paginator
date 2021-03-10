@@ -30,8 +30,8 @@ paginator.setItemsPerPage(15);
 paginator.getItemsPerLoad(); // --> 195
 
 // Show the first page:
-await paginator.resetToFirstPage();
-console.log(paginator.getCurrentPage()); // `[item1, item2, item3, item4,...]`
+await paginator.setCurrentPageNumber(1, {reload:true});
+console.log(paginator.getCurrentPage()); // '[item1, item2, item3, item4,...]'
 
 // Jump to different page:
 await paginator.setCurrentPageNumber(5);
@@ -47,15 +47,15 @@ await paginator.setCurrentPageNumber(5);
 constructor(
     dataSource: {
     
-        // The number of items `getLoad()` returns must match `itemsPerLoad`.  If
-        // `isLastLoad` is true, it must only return the remaining items in the dataset
+        // The number of items 'getLoad()' returns must match 'itemsPerLoad'.  If
+        // 'isLastLoad' is true, it must only return the remaining items in the dataset
         // and ignore itemsPerLoad.
     
         getLoad: (
             loadNumber: number, itemsPerLoad: number, isLastLoad: boolean
         ) => Promise<any[]>;
     
-        // `dataTotal`: number of items in entire dataset, not the load.
+        // 'dataTotal': number of items in entire dataset, not the load.
         // This must stay accurate after actions that change the total, such as searches.
     
         dataTotal: number;
@@ -71,28 +71,28 @@ constructor(
 
 ```ts
 setItemsPerLoad(num): void
-    // itemsPerLoad / itemsPerPage must divide evenly.  If they don't,
-    // itemsPerLoad will automatically lower until they do.
+    // After setting this, if itemsPerLoad / itemsPerPage don't divide 
+    // evenly, itemsPerLoad will lower to the closest number that will.
 
 getItemsPerLoad(): number
 
 setItemsPerPage(num): void
+    // After setting this, if itemsPerLoad / itemsPerPage don't divide 
+    // evenly, itemsPerLoad will lower to the closest number that will.
 
 getItemsPerPage(): number
 
-setCurrentPageNumber(num): Promise<void>
-    // changes the page.
+getTotalPages(): number
+
+setCurrentPageNumber(num, option? = {reload: false}): Promise<void>
+    // Changes the page.
+    // Set 'option.reload' to true if page data must be reloaded, 
+    // for any reason, from the 'dataSource'.
+
 
 getCurrentPageNumber(): number
 
-resetToFirstPage(): Promise<void>
-    // Intended to be called after the order of the dataset changes 
-    // (like after sorting), or after the total number of items changes 
-    // (like after a search).
-
 getCurrentPage(): any[]
-
-getTotalPages(): number
 ```
 </details>
 
